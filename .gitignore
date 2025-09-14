@@ -1,42 +1,22 @@
-# Docker
-*.log
-.docker/
+# Secrets and sensitive files
+cicd/codigo/.env
+cicd/results/gitleaks-report.json
+cicd/results/bandit-results.json
+cicd/results/*.json
 
-# Python
+# Docker volumes
+cicd/results/
+*.log
+
+# Python cache
 __pycache__/
 *.pyc
 *.pyo
-*.pyd
-.Python
-env/
-venv/
-.venv/
 
-# IDE
-.vscode/settings.json
+# IDE files
+.vscode/
 .idea/
-*.swp
-*.swo
 
-# OS
+# OS files
 .DS_Store
 Thumbs.db
-
-# Logs
-logs/
-*.log
-
-# Temporary files
-tmp/
-temp/
-cache/
-
-# Sensitive data
-*.key
-*.pem
-config.local.json
-
-# Build artifacts
-build/
-dist/
-*.tar.gz

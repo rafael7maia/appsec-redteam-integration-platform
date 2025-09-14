@@ -1,0 +1,54 @@
+version: '3.8'
+
+services:
+  # Vulnerable Application
+  vulnerable-app:
+    build: ./codigo
+    ports:
+      - "5000:5000"
+    networks:
+      - appsec-network
+
+  # Note: Dependency Track runs separately via dependencytrack/docker-compose.yaml
+  # Access at: http://192.168.0.72:8081 (API) and http://192.168.0.72:8082 (Frontend)
+
+  # Note: DefectDojo runs separately via defectdojo/docker-compose.yml
+  # Access at: http://localhost:8080 (admin/defectdojo)
+
+  # Security Scanning Tools
+  trivy:
+    image: aquasec/trivy:latest
+    command: server --listen :8083 --token yourAuthToken
+    volumes:
+      - trivy-cache:/root/.cache/trivy
+    ports:
+      - '8083:8083'
+    networks:
+      - appsec-network
+
+  # OWASP ZAP for DAST
+  zap:
+    image: zaproxy/zap-stable:latest
+    command: zap.sh -daemon -host 0.0.0.0 -port 8090 -config api.addrs.addr.name=.* -config api.addrs.addr.regex=true
+    ports:
+      - "8090:8090"
+    networks:
+      - appsec-network
+
+  # GitLeaks for Secret Scanning
+  gitleaks:
+    image: zricethezav/gitleaks:latest
+    command: detect --source /code --report-format json --report-path /results/gitleaks-report.json --verbose
+    volumes:
+      - ./codigo:/code:ro
+      - gitleaks-results:/results
+    networks:
+      - appsec-network
+
+networks:
+  appsec-network:
+    driver: bridge
+
+volumes:
+  trivy-cache: {}
+  gitleaks-results: {}
