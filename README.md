@@ -40,17 +40,21 @@ AI Bug Bounty Framework v4.0 combines:
 
 ## 🎯 **Two Operation Modes:**
 
-### **Mode 1: AppSec Integration (NEW)**
-- Input: Source code, dependencies, running application
-- Process: SCA → Secrets → SAST → DAST → Red Team Validation
-- Output: Professional HTML report with exploitation proofs
-- Target: AppSec teams, DevSecOps, Security engineers
+> **📋 [Complete Operation Modes Documentation](OPERATION_MODES.md)**
 
-### **Mode 2: Bug Bounty (Original)**
-- Input: Target URL
-- Process: Reconnaissance → Exploitation → Reporting
-- Output: Vulnerability findings with MITRE ATT&CK mapping
-- Target: Bug bounty hunters, Pentesters
+### **Mode 1: AppSec Integration (White Hat → Grey Hat)**
+- **Input:** Source code, dependencies, running application
+- **Process:** SCA → Secrets → SAST → DAST → Red Team Validation
+- **Output:** Professional HTML report with exploitation proofs
+- **Target:** AppSec teams, DevSecOps, Security engineers
+- **Value:** *"Prove que suas vulnerabilidades AppSec são realmente exploráveis"*
+
+### **Mode 2: Bug Bounty / Red Team (Pure Grey Hat)**
+- **Input:** Target URL with proper authorization
+- **Process:** Reconnaissance → Exploitation → Reporting (150+ tools)
+- **Output:** Vulnerability findings with MITRE ATT&CK mapping
+- **Target:** Bug bounty hunters, Pentesters, Red Teams
+- **Value:** *"AI-powered bug bounty hunting com 150+ ferramentas automatizadas"*
 
 ## ✅ **What Works 100%:**
 
