@@ -1,0 +1,151 @@
+{
+  "target": "ingresso.com",
+  "scan_date": "2025-09-15",
+  "framework": "HexStrike AI v4.0",
+  "status": "Authorized Bug Bounty Testing",
+  "summary": {
+    "total_findings": 12,
+    "critical": 0,
+    "high": 0,
+    "medium": 3,
+    "low": 6,
+    "info": 3,
+    "estimated_value": "$0-$500"
+  },
+  "infrastructure": {
+    "primary_domain": "ingresso.com",
+    "ip_address": "104.79.250.93",
+    "ipv6": ["2600:1419:9e00:383::27a7", "2600:1419:9e00:384::27a7"],
+    "cdn_provider": "Akamai",
+    "ssl_issuer": "DigiCert Global G3 TLS ECC SHA384 2020 CA1",
+    "nameservers": [
+      "borges.uol.com.br",
+      "charles.uol.com.br", 
+      "eliot.uol.com.br"
+    ]
+  },
+  "subdomains": [
+    {
+      "subdomain": "b.ingresso.com",
+      "ip": ["34.120.131.82", "34.160.19.145"],
+      "status": "Active",
+      "risk": "Low"
+    },
+    {
+      "subdomain": "b2b.ingresso.com",
+      "status": "503 Service Unavailable",
+      "risk": "Medium",
+      "note": "Business portal potentially under maintenance"
+    },
+    {
+      "subdomain": "sac.ingresso.com",
+      "service": "Zoho Desk",
+      "status": "400 Bad Request",
+      "risk": "Medium",
+      "note": "Customer support system"
+    },
+    {
+      "subdomain": "reports.ingresso.com",
+      "status": "403 Forbidden",
+      "risk": "Medium",
+      "note": "Reporting system with different security posture"
+    }
+  ],
+  "security_headers": {
+    "hsts": "max-age=63072000; includeSubDomains; preload",
+    "x_frame_options": "SAMEORIGIN",
+    "x_content_type_options": "nosniff",
+    "csp": "Not implemented",
+    "cors_policy": "Strict same-origin policy"
+  },
+  "findings": [
+    {
+      "id": "INFO-001",
+      "title": "Subdomain Enumeration",
+      "severity": "Info",
+      "description": "Multiple subdomains discovered through DNS enumeration",
+      "impact": "Information disclosure about infrastructure",
+      "recommendation": "Monitor for subdomain takeover risks",
+      "mitre_attack": "T1590.005"
+    },
+    {
+      "id": "INFO-002", 
+      "title": "SSL Certificate Analysis",
+      "severity": "Info",
+      "description": "SSL certificate reveals multiple domains and subdomains",
+      "impact": "Infrastructure mapping",
+      "recommendation": "Consider using separate certificates for different services",
+      "mitre_attack": "T1590.001"
+    },
+    {
+      "id": "MEDIUM-001",
+      "title": "Third-Party Service Integration",
+      "severity": "Medium",
+      "description": "Zoho Desk integration at sac.ingresso.com",
+      "impact": "Potential attack vector through third-party service",
+      "recommendation": "Review Zoho Desk security configuration",
+      "mitre_attack": "T1190"
+    },
+    {
+      "id": "MEDIUM-002",
+      "title": "Business Portal Availability",
+      "severity": "Medium", 
+      "description": "b2b.ingresso.com returns 503 Service Unavailable",
+      "impact": "Business-critical service potentially exposed during maintenance",
+      "recommendation": "Implement proper maintenance pages and access controls",
+      "mitre_attack": "T1190"
+    },
+    {
+      "id": "LOW-001",
+      "title": "Missing Content Security Policy",
+      "severity": "Low",
+      "description": "No Content-Security-Policy header detected",
+      "impact": "Potential XSS attack vector",
+      "recommendation": "Implement comprehensive CSP header",
+      "mitre_attack": "T1059.007"
+    }
+  ],
+  "tools_used": [
+    "Nmap 7.95",
+    "Nikto 2.5.0", 
+    "SQLMap 1.9.9",
+    "DNSRecon",
+    "WhatWeb",
+    "Dirb",
+    "HexStrike AI Framework"
+  ],
+  "mitre_attack_techniques": [
+    {
+      "technique": "T1590.005",
+      "name": "Gather Victim Network Information: DNS",
+      "status": "Successful"
+    },
+    {
+      "technique": "T1595.002", 
+      "name": "Active Scanning: Vulnerability Scanning",
+      "status": "Blocked by WAF"
+    },
+    {
+      "technique": "T1190",
+      "name": "Exploit Public-Facing Application",
+      "status": "Blocked by security controls"
+    }
+  ],
+  "recommendations": {
+    "immediate": [
+      "Review third-party service configurations",
+      "Implement proper maintenance pages for b2b portal",
+      "Monitor subdomain takeover risks"
+    ],
+    "short_term": [
+      "Implement Content Security Policy",
+      "Review DNS security configuration",
+      "Consider DNSSEC implementation"
+    ],
+    "long_term": [
+      "Regular security assessments",
+      "Bug bounty program expansion",
+      "Advanced threat monitoring"
+    ]
+  }
+}

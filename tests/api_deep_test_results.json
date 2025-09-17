@@ -1,0 +1,293 @@
+{
+  "tested_apis": [
+    "https://ingresso.com/api/events",
+    "https://www.ingresso.com/api/events",
+    "https://ingresso.com.br/api/events",
+    "https://www.ingresso.com.br/api/events"
+  ],
+  "total_findings": 36,
+  "findings": [
+    {
+      "type": "Unauthenticated API Access",
+      "severity": "Medium",
+      "url": "https://ingresso.com/api/events",
+      "description": "API returns data without authentication",
+      "response_size": 196251
+    },
+    {
+      "type": "IDOR - Sensitive Data Exposure",
+      "severity": "High",
+      "url": "https://ingresso.com/api/events/100",
+      "description": "Potential sensitive data exposure via IDOR: email",
+      "status_code": 200
+    },
+    {
+      "type": "HTTP Method GET Allowed",
+      "severity": "Low",
+      "url": "https://ingresso.com/api/events",
+      "description": "GET method returns 200",
+      "status_code": 200
+    },
+    {
+      "type": "HTTP Method OPTIONS Allowed",
+      "severity": "Low",
+      "url": "https://ingresso.com/api/events",
+      "description": "OPTIONS method returns 204",
+      "status_code": 204
+    },
+    {
+      "type": "Parameter Pollution Accepted",
+      "severity": "Low",
+      "url": "https://ingresso.com/api/events?id=1&id=2",
+      "description": "Server accepts parameter pollution for id",
+      "status_code": 200
+    },
+    {
+      "type": "Parameter Pollution Accepted",
+      "severity": "Low",
+      "url": "https://ingresso.com/api/events?user_id=1&user_id=2",
+      "description": "Server accepts parameter pollution for user_id",
+      "status_code": 200
+    },
+    {
+      "type": "Parameter Pollution Accepted",
+      "severity": "Low",
+      "url": "https://ingresso.com/api/events?event_id=1&event_id=2",
+      "description": "Server accepts parameter pollution for event_id",
+      "status_code": 200
+    },
+    {
+      "type": "Parameter Pollution Accepted",
+      "severity": "Low",
+      "url": "https://ingresso.com/api/events?limit=10&limit=999999",
+      "description": "Server accepts parameter pollution for limit",
+      "status_code": 200
+    },
+    {
+      "type": "Parameter Pollution Accepted",
+      "severity": "Low",
+      "url": "https://ingresso.com/api/events?offset=0&offset=-1",
+      "description": "Server accepts parameter pollution for offset",
+      "status_code": 200
+    },
+    {
+      "type": "Unauthenticated API Access",
+      "severity": "Medium",
+      "url": "https://www.ingresso.com/api/events",
+      "description": "API returns data without authentication",
+      "response_size": 196251
+    },
+    {
+      "type": "IDOR - Sensitive Data Exposure",
+      "severity": "High",
+      "url": "https://www.ingresso.com/api/events/100",
+      "description": "Potential sensitive data exposure via IDOR: email",
+      "status_code": 200
+    },
+    {
+      "type": "HTTP Method GET Allowed",
+      "severity": "Low",
+      "url": "https://www.ingresso.com/api/events",
+      "description": "GET method returns 200",
+      "status_code": 200
+    },
+    {
+      "type": "HTTP Method OPTIONS Allowed",
+      "severity": "Low",
+      "url": "https://www.ingresso.com/api/events",
+      "description": "OPTIONS method returns 204",
+      "status_code": 204
+    },
+    {
+      "type": "Parameter Pollution Accepted",
+      "severity": "Low",
+      "url": "https://www.ingresso.com/api/events?id=1&id=2",
+      "description": "Server accepts parameter pollution for id",
+      "status_code": 200
+    },
+    {
+      "type": "Parameter Pollution Accepted",
+      "severity": "Low",
+      "url": "https://www.ingresso.com/api/events?user_id=1&user_id=2",
+      "description": "Server accepts parameter pollution for user_id",
+      "status_code": 200
+    },
+    {
+      "type": "Parameter Pollution Accepted",
+      "severity": "Low",
+      "url": "https://www.ingresso.com/api/events?event_id=1&event_id=2",
+      "description": "Server accepts parameter pollution for event_id",
+      "status_code": 200
+    },
+    {
+      "type": "Parameter Pollution Accepted",
+      "severity": "Low",
+      "url": "https://www.ingresso.com/api/events?limit=10&limit=999999",
+      "description": "Server accepts parameter pollution for limit",
+      "status_code": 200
+    },
+    {
+      "type": "Parameter Pollution Accepted",
+      "severity": "Low",
+      "url": "https://www.ingresso.com/api/events?offset=0&offset=-1",
+      "description": "Server accepts parameter pollution for offset",
+      "status_code": 200
+    },
+    {
+      "type": "Unauthenticated API Access",
+      "severity": "Medium",
+      "url": "https://ingresso.com.br/api/events",
+      "description": "API returns data without authentication",
+      "response_size": 196251
+    },
+    {
+      "type": "IDOR - Sensitive Data Exposure",
+      "severity": "High",
+      "url": "https://ingresso.com.br/api/events/100",
+      "description": "Potential sensitive data exposure via IDOR: email",
+      "status_code": 200
+    },
+    {
+      "type": "HTTP Method GET Allowed",
+      "severity": "Low",
+      "url": "https://ingresso.com.br/api/events",
+      "description": "GET method returns 200",
+      "status_code": 200
+    },
+    {
+      "type": "HTTP Method OPTIONS Allowed",
+      "severity": "Low",
+      "url": "https://ingresso.com.br/api/events",
+      "description": "OPTIONS method returns 204",
+      "status_code": 204
+    },
+    {
+      "type": "Parameter Pollution Accepted",
+      "severity": "Low",
+      "url": "https://ingresso.com.br/api/events?id=1&id=2",
+      "description": "Server accepts parameter pollution for id",
+      "status_code": 200
+    },
+    {
+      "type": "Parameter Pollution Accepted",
+      "severity": "Low",
+      "url": "https://ingresso.com.br/api/events?user_id=1&user_id=2",
+      "description": "Server accepts parameter pollution for user_id",
+      "status_code": 200
+    },
+    {
+      "type": "Parameter Pollution Accepted",
+      "severity": "Low",
+      "url": "https://ingresso.com.br/api/events?event_id=1&event_id=2",
+      "description": "Server accepts parameter pollution for event_id",
+      "status_code": 200
+    },
+    {
+      "type": "Parameter Pollution Accepted",
+      "severity": "Low",
+      "url": "https://ingresso.com.br/api/events?limit=10&limit=999999",
+      "description": "Server accepts parameter pollution for limit",
+      "status_code": 200
+    },
+    {
+      "type": "Parameter Pollution Accepted",
+      "severity": "Low",
+      "url": "https://ingresso.com.br/api/events?offset=0&offset=-1",
+      "description": "Server accepts parameter pollution for offset",
+      "status_code": 200
+    },
+    {
+      "type": "Unauthenticated API Access",
+      "severity": "Medium",
+      "url": "https://www.ingresso.com.br/api/events",
+      "description": "API returns data without authentication",
+      "response_size": 196251
+    },
+    {
+      "type": "IDOR - Sensitive Data Exposure",
+      "severity": "High",
+      "url": "https://www.ingresso.com.br/api/events/100",
+      "description": "Potential sensitive data exposure via IDOR: email",
+      "status_code": 200
+    },
+    {
+      "type": "HTTP Method GET Allowed",
+      "severity": "Low",
+      "url": "https://www.ingresso.com.br/api/events",
+      "description": "GET method returns 200",
+      "status_code": 200
+    },
+    {
+      "type": "HTTP Method OPTIONS Allowed",
+      "severity": "Low",
+      "url": "https://www.ingresso.com.br/api/events",
+      "description": "OPTIONS method returns 204",
+      "status_code": 204
+    },
+    {
+      "type": "Parameter Pollution Accepted",
+      "severity": "Low",
+      "url": "https://www.ingresso.com.br/api/events?id=1&id=2",
+      "description": "Server accepts parameter pollution for id",
+      "status_code": 200
+    },
+    {
+      "type": "Parameter Pollution Accepted",
+      "severity": "Low",
+      "url": "https://www.ingresso.com.br/api/events?user_id=1&user_id=2",
+      "description": "Server accepts parameter pollution for user_id",
+      "status_code": 200
+    },
+    {
+      "type": "Parameter Pollution Accepted",
+      "severity": "Low",
+      "url": "https://www.ingresso.com.br/api/events?event_id=1&event_id=2",
+      "description": "Server accepts parameter pollution for event_id",
+      "status_code": 200
+    },
+    {
+      "type": "Parameter Pollution Accepted",
+      "severity": "Low",
+      "url": "https://www.ingresso.com.br/api/events?limit=10&limit=999999",
+      "description": "Server accepts parameter pollution for limit",
+      "status_code": 200
+    },
+    {
+      "type": "Parameter Pollution Accepted",
+      "severity": "Low",
+      "url": "https://www.ingresso.com.br/api/events?offset=0&offset=-1",
+      "description": "Server accepts parameter pollution for offset",
+      "status_code": 200
+    }
+  ],
+  "high_value_findings": [
+    {
+      "type": "IDOR - Sensitive Data Exposure",
+      "severity": "High",
+      "url": "https://ingresso.com/api/events/100",
+      "description": "Potential sensitive data exposure via IDOR: email",
+      "status_code": 200
+    },
+    {
+      "type": "IDOR - Sensitive Data Exposure",
+      "severity": "High",
+      "url": "https://www.ingresso.com/api/events/100",
+      "description": "Potential sensitive data exposure via IDOR: email",
+      "status_code": 200
+    },
+    {
+      "type": "IDOR - Sensitive Data Exposure",
+      "severity": "High",
+      "url": "https://ingresso.com.br/api/events/100",
+      "description": "Potential sensitive data exposure via IDOR: email",
+      "status_code": 200
+    },
+    {
+      "type": "IDOR - Sensitive Data Exposure",
+      "severity": "High",
+      "url": "https://www.ingresso.com.br/api/events/100",
+      "description": "Potential sensitive data exposure via IDOR: email",
+      "status_code": 200
+    }
+  ]
+}

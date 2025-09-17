@@ -1,0 +1,60 @@
+{
+  "test_date": "2025-09-15 14:22:22",
+  "endpoints_tested": 4,
+  "real_vulnerabilities_found": 4,
+  "false_positives_identified": 0,
+  "results": [
+    {
+      "endpoint": "https://ingresso.com/api/events",
+      "status_code": 200,
+      "response_size": 196612,
+      "content_type": "application/json",
+      "actual_vulnerability": true,
+      "vulnerability_type": "Email Disclosure",
+      "evidence": [
+        "sac@institutoevoe.com.br",
+        "sac@institutoevoe.com.br",
+        "sac@institutoevoe.com.br"
+      ]
+    },
+    {
+      "endpoint": "https://www.ingresso.com/api/events",
+      "status_code": 200,
+      "response_size": 196612,
+      "content_type": "application/json",
+      "actual_vulnerability": true,
+      "vulnerability_type": "Email Disclosure",
+      "evidence": [
+        "sac@institutoevoe.com.br",
+        "sac@institutoevoe.com.br",
+        "sac@institutoevoe.com.br"
+      ]
+    },
+    {
+      "endpoint": "https://ingresso.com.br/api/events",
+      "status_code": 200,
+      "response_size": 196612,
+      "content_type": "application/json",
+      "actual_vulnerability": true,
+      "vulnerability_type": "Email Disclosure",
+      "evidence": [
+        "sac@institutoevoe.com.br",
+        "sac@institutoevoe.com.br",
+        "sac@institutoevoe.com.br"
+      ]
+    },
+    {
+      "endpoint": "https://www.ingresso.com.br/api/events",
+      "status_code": 200,
+      "response_size": 196612,
+      "content_type": "application/json",
+      "actual_vulnerability": true,
+      "vulnerability_type": "Email Disclosure",
+      "evidence": [
+        "sac@institutoevoe.com.br",
+        "sac@institutoevoe.com.br",
+        "sac@institutoevoe.com.br"
+      ]
+    }
+  ]
+}

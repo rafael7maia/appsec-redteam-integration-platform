@@ -1,0 +1,96 @@
+{
+  "target": "ingresso.com",
+  "protection_analysis": {
+    "target": "ingresso.com",
+    "waf_detected": true,
+    "cdn_detected": true,
+    "waf_type": "akamai",
+    "cdn_type": "akamai",
+    "protection_level": "High",
+    "bypass_techniques": [
+      "Manual testing with legitimate user sessions",
+      "Rate limiting and request spacing",
+      "User-Agent rotation",
+      "IP rotation through proxies",
+      "Parameter pollution techniques"
+    ],
+    "recommended_approach": [
+      "Focus on business logic vulnerabilities",
+      "Manual testing approach required",
+      "Test mobile applications separately",
+      "Analyze third-party integrations",
+      "Use legitimate user sessions for testing"
+    ]
+  },
+  "reconnaissance": {
+    "target": "ingresso.com",
+    "protection_analysis": {
+      "target": "ingresso.com",
+      "waf_detected": true,
+      "cdn_detected": true,
+      "waf_type": "akamai",
+      "cdn_type": "akamai",
+      "protection_level": "High",
+      "bypass_techniques": [
+        "Manual testing with legitimate user sessions",
+        "Rate limiting and request spacing",
+        "User-Agent rotation",
+        "IP rotation through proxies",
+        "Parameter pollution techniques"
+      ],
+      "recommended_approach": [
+        "Focus on business logic vulnerabilities",
+        "Manual testing approach required",
+        "Test mobile applications separately",
+        "Analyze third-party integrations",
+        "Use legitimate user sessions for testing"
+      ]
+    },
+    "scan_strategy": {
+      "approach": "stealth",
+      "delay_between_requests": 6,
+      "user_agents": [
+        "Mozilla/5.0 (Windows NT 10.0; Win64; x64) AppleWebKit/537.36",
+        "Mozilla/5.0 (Macintosh; Intel Mac OS X 10_15_7) AppleWebKit/537.36",
+        "Mozilla/5.0 (X11; Linux x86_64) AppleWebKit/537.36"
+      ],
+      "max_threads": 1,
+      "techniques": [
+        "manual_testing",
+        "business_logic",
+        "mobile_endpoints"
+      ],
+      "tools_to_avoid": [
+        "sqlmap_aggressive",
+        "nikto_full",
+        "dirb_recursive"
+      ]
+    },
+    "recommendations": [
+      "Manual testing with legitimate browser sessions",
+      "Focus on business logic vulnerabilities",
+      "Test mobile applications separately",
+      "Analyze third-party integrations",
+      "Social engineering assessment (if in scope)"
+    ]
+  },
+  "vulnerabilities": [
+    {
+      "type": "Information Gathering",
+      "severity": "Info",
+      "command": "nslookup ingresso.com",
+      "output": "Servidor:  UnKnown\nAddress:  2804:14d:1:0:181:213:132:2\n\nNome:    e10151.dscg.akamaiedge.net\nAddresses:  2600:1419:9e00:48e::27a7\n\t  2600:1419:9e00:48f::27a7\n\t  23.34.5.113\nAliases:  ingresso.com\n\t  san.ingresso.com.br.edgekey.net\n\n"
+    }
+  ],
+  "recommendations": [
+    "Target has High protection level",
+    "WAF detected: akamai",
+    "CDN detected: akamai",
+    "Avoid aggressive automated scanning",
+    "Focus on manual testing with legitimate sessions",
+    "Test business logic vulnerabilities",
+    "Analyze mobile applications separately",
+    "Look for third-party integration weaknesses",
+    "Consider social engineering approaches (if in scope)"
+  ]
+}

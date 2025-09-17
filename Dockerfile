@@ -41,22 +41,15 @@ RUN mkdir -p /opt/tools/bin /opt/wordlists /app/results
 # ============================================================================
 
 # Install Nmap with NSE scripts
-RUN apt-get update && apt-get install -y nmap nmap-common && \
-    nmap --script-updatedb
-
-# Install Rustscan (Ultra-fast port scanner)
-RUN wget -O /tmp/rustscan.deb https://github.com/RustScan/RustScan/releases/download/2.1.1/rustscan_2.1.1_amd64.deb && \
-    dpkg -i /tmp/rustscan.deb || apt-get install -f -y && \
-    rm /tmp/rustscan.deb
+RUN apt-get update && apt-get install -y nmap nmap-common
 
 # Install Masscan (High-speed port scanner)
 RUN apt-get install -y masscan
 
-# Install network discovery tools
+# Install network discovery tools (only available packages)
 RUN apt-get install -y \
-    amass subfinder fierce dnsrecon dnsenum \
-    theharvester responder netexec enum4linux-ng \
-    nbtscan arp-scan smbmap rpcclient
+    dnsrecon dnsenum theharvester \
+    nbtscan arp-scan smbmap
 
 # Install Go-based network tools
 RUN go install github.com/projectdiscovery/nuclei/v3/cmd/nuclei@latest && \

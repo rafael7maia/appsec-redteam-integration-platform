@@ -1,0 +1,193 @@
+{
+  "target": "ingresso.com",
+  "in_scope_findings": [
+    {
+      "category": "Business Logic",
+      "test": "Price Manipulation",
+      "description": "Test for price tampering in booking flow",
+      "risk_level": "Critical",
+      "status": "Manual testing required"
+    },
+    {
+      "category": "Business Logic",
+      "test": "Booking Bypass",
+      "description": "Test for seat reservation without payment",
+      "risk_level": "High",
+      "status": "Manual testing required"
+    },
+    {
+      "category": "Business Logic",
+      "test": "Discount Code Abuse",
+      "description": "Test for discount code reuse/stacking",
+      "risk_level": "Medium",
+      "status": "Manual testing required"
+    },
+    {
+      "category": "Authentication",
+      "test": "Account Takeover",
+      "description": "Test for password reset vulnerabilities",
+      "risk_level": "Critical",
+      "status": "Manual testing required"
+    },
+    {
+      "category": "Authentication",
+      "test": "Session Management",
+      "description": "Test for session fixation/hijacking",
+      "risk_level": "High",
+      "status": "Manual testing required"
+    },
+    {
+      "category": "Authentication",
+      "test": "OAuth Implementation",
+      "description": "Test OAuth flow for bypasses",
+      "risk_level": "High",
+      "status": "Manual testing required"
+    },
+    {
+      "category": "API Discovery",
+      "test": "API Endpoint Found",
+      "description": "Active API endpoint: https://ingresso.com/api/events",
+      "risk_level": "Medium",
+      "status": "HTTP 200",
+      "url": "https://ingresso.com/api/events"
+    },
+    {
+      "category": "API Discovery",
+      "test": "API Endpoint Found",
+      "description": "Active API endpoint: https://www.ingresso.com/api/events",
+      "risk_level": "Medium",
+      "status": "HTTP 200",
+      "url": "https://www.ingresso.com/api/events"
+    },
+    {
+      "category": "API Discovery",
+      "test": "API Endpoint Found",
+      "description": "Active API endpoint: https://ingresso.com.br/api/events",
+      "risk_level": "Medium",
+      "status": "HTTP 200",
+      "url": "https://ingresso.com.br/api/events"
+    },
+    {
+      "category": "API Discovery",
+      "test": "API Endpoint Found",
+      "description": "Active API endpoint: https://www.ingresso.com.br/api/events",
+      "risk_level": "Medium",
+      "status": "HTTP 200",
+      "url": "https://www.ingresso.com.br/api/events"
+    },
+    {
+      "category": "File Upload",
+      "test": "File Upload Endpoint Found",
+      "description": "Potential file upload at https://ingresso.com/upload",
+      "risk_level": "Medium",
+      "status": "Manual testing required"
+    },
+    {
+      "category": "File Upload",
+      "test": "File Upload Endpoint Found",
+      "description": "Potential file upload at https://ingresso.com/api/upload",
+      "risk_level": "Medium",
+      "status": "Manual testing required"
+    },
+    {
+      "category": "File Upload",
+      "test": "File Upload Endpoint Found",
+      "description": "Potential file upload at https://ingresso.com/profile/avatar",
+      "risk_level": "Medium",
+      "status": "Manual testing required"
+    },
+    {
+      "category": "File Upload",
+      "test": "File Upload Endpoint Found",
+      "description": "Potential file upload at https://www.ingresso.com/upload",
+      "risk_level": "Medium",
+      "status": "Manual testing required"
+    },
+    {
+      "category": "File Upload",
+      "test": "File Upload Endpoint Found",
+      "description": "Potential file upload at https://www.ingresso.com/api/upload",
+      "risk_level": "Medium",
+      "status": "Manual testing required"
+    },
+    {
+      "category": "File Upload",
+      "test": "File Upload Endpoint Found",
+      "description": "Potential file upload at https://www.ingresso.com/profile/avatar",
+      "risk_level": "Medium",
+      "status": "Manual testing required"
+    },
+    {
+      "category": "File Upload",
+      "test": "File Upload Endpoint Found",
+      "description": "Potential file upload at https://ingresso.com.br/upload",
+      "risk_level": "Medium",
+      "status": "Manual testing required"
+    },
+    {
+      "category": "File Upload",
+      "test": "File Upload Endpoint Found",
+      "description": "Potential file upload at https://ingresso.com.br/api/upload",
+      "risk_level": "Medium",
+      "status": "Manual testing required"
+    },
+    {
+      "category": "File Upload",
+      "test": "File Upload Endpoint Found",
+      "description": "Potential file upload at https://ingresso.com.br/profile/avatar",
+      "risk_level": "Medium",
+      "status": "Manual testing required"
+    },
+    {
+      "category": "File Upload",
+      "test": "File Upload Endpoint Found",
+      "description": "Potential file upload at https://www.ingresso.com.br/upload",
+      "risk_level": "Medium",
+      "status": "Manual testing required"
+    },
+    {
+      "category": "File Upload",
+      "test": "File Upload Endpoint Found",
+      "description": "Potential file upload at https://www.ingresso.com.br/api/upload",
+      "risk_level": "Medium",
+      "status": "Manual testing required"
+    },
+    {
+      "category": "File Upload",
+      "test": "File Upload Endpoint Found",
+      "description": "Potential file upload at https://www.ingresso.com.br/profile/avatar",
+      "risk_level": "Medium",
+      "status": "Manual testing required"
+    }
+  ],
+  "out_of_scope_excluded": [
+    "Clickjacking on non-sensitive pages",
+    "Self-XSS",
+    "Username enumeration",
+    "CSRF on non-critical actions",
+    "Missing security headers",
+    "Flash vulnerabilities",
+    "Open redirect",
+    "Brute force attacks",
+    "Stack trace errors",
+    "HTTP OPTIONS method",
+    "Content spoofing",
+    "Banner grabbing",
+    "Password complexity",
+    "Rate limiting",
+    "Cookie flags",
+    "HSTS missing"
+  ],
+  "recommendations": [
+    "Focus on business logic vulnerabilities in booking/payment flow",
+    "Test authentication mechanisms for bypasses",
+    "Look for API endpoints and test for IDOR/injection",
+    "Test file upload functionality if found",
+    "Analyze mobile app endpoints separately",
+    "Test third-party integrations (payment gateways)",
+    "Look for privilege escalation in user roles",
+    "Test for account takeover vulnerabilities",
+    "Analyze session management implementation",
+    "Test for price manipulation in booking process"
+  ]
+}
