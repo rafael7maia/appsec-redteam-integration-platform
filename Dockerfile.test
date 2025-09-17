@@ -1,0 +1,50 @@
+# HexStrike AI v4.0 - Test Version for ingresso.com
+FROM kalilinux/kali-rolling
+
+# Environment variables
+ENV PYTHONUNBUFFERED=1
+ENV DEBIAN_FRONTEND=noninteractive
+
+# Update and install essential packages
+RUN apt-get update && apt-get install -y \
+    python3 python3-pip curl wget git \
+    nmap sqlmap nikto dirb whatweb \
+    dnsrecon dnsenum theharvester \
+    && rm -rf /var/lib/apt/lists/*
+
+# Install Python packages with --break-system-packages
+RUN pip3 install --break-system-packages --no-cache-dir \
+    requests beautifulsoup4
+
+# Create directories
+RUN mkdir -p /app/results
+
+# Copy framework files
+COPY simple_mcp.py /app/
+COPY security_bridge.py /app/
+
+# Set working directory
+WORKDIR /app
+
+# Create start script for testing ingresso.com
+RUN echo '#!/bin/bash\n\
+echo "🚀 HexStrike AI v4.0 - Testing ingresso.com"\n\
+echo "🎯 Target: ingresso.com (Bug Bounty Authorized)"\n\
+echo "🛡️ Essential Security Tools Ready"\n\
+echo "================================"\n\
+echo "Available Commands:"\n\
+echo "  nmap -sV ingresso.com"\n\
+echo "  sqlmap -u https://ingresso.com --batch --crawl=2"\n\
+echo "  nikto -h https://ingresso.com"\n\
+echo "  python3 simple_mcp.py nmap_scan ingresso.com"\n\
+echo "  python3 security_bridge.py mitre_attack_chain ingresso.com"\n\
+echo "================================"\n\
+echo "Starting HTTP server on port 8888..."\n\
+python3 -m http.server 8888\n\
+' > /app/start.sh && chmod +x /app/start.sh
+
+# Expose port
+EXPOSE 8888
+
+# Start
+CMD ["/app/start.sh"]

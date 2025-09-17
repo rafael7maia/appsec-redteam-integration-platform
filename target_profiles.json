@@ -1,0 +1,141 @@
+{
+  "e-commerce": {
+    "description": "Plataformas de comércio eletrônico",
+    "high_value_targets": [
+      "payment endpoints",
+      "user profiles",
+      "order history",
+      "credit card data",
+      "personal information"
+    ],
+    "expected_public_data": [
+      "product information",
+      "company contact",
+      "support emails",
+      "marketing emails",
+      "public events"
+    ],
+    "critical_vulnerabilities": [
+      "payment bypass",
+      "price manipulation",
+      "account takeover",
+      "credit card exposure",
+      "personal data breach"
+    ],
+    "false_positive_indicators": [
+      "sac@", "contato@", "vendas@", "marketing@",
+      "product descriptions", "public events",
+      "company information"
+    ]
+  },
+  
+  "financial": {
+    "description": "Instituições financeiras",
+    "high_value_targets": [
+      "account balances",
+      "transaction history", 
+      "personal documents",
+      "banking credentials",
+      "investment data"
+    ],
+    "expected_public_data": [
+      "branch locations",
+      "contact information",
+      "product rates",
+      "general information"
+    ],
+    "critical_vulnerabilities": [
+      "account access",
+      "transaction manipulation",
+      "document exposure",
+      "authentication bypass"
+    ],
+    "false_positive_indicators": [
+      "atendimento@", "sac@", "ouvidoria@",
+      "branch information", "public rates"
+    ]
+  },
+  
+  "healthcare": {
+    "description": "Sistemas de saúde",
+    "high_value_targets": [
+      "patient records",
+      "medical history",
+      "prescription data",
+      "insurance information",
+      "personal health data"
+    ],
+    "expected_public_data": [
+      "clinic information",
+      "doctor profiles",
+      "appointment scheduling",
+      "general health tips"
+    ],
+    "critical_vulnerabilities": [
+      "patient data breach",
+      "medical record access",
+      "prescription manipulation",
+      "insurance fraud"
+    ],
+    "false_positive_indicators": [
+      "contato@", "agendamento@", "recepcao@",
+      "doctor profiles", "clinic hours"
+    ]
+  },
+  
+  "entertainment": {
+    "description": "Plataformas de entretenimento (como Ingresso.com)",
+    "high_value_targets": [
+      "user personal data",
+      "payment information",
+      "booking history",
+      "private messages",
+      "account credentials"
+    ],
+    "expected_public_data": [
+      "event information",
+      "venue details",
+      "ticket prices",
+      "artist information",
+      "support contacts"
+    ],
+    "critical_vulnerabilities": [
+      "account takeover",
+      "payment bypass",
+      "personal data exposure",
+      "booking manipulation"
+    ],
+    "false_positive_indicators": [
+      "sac@", "eventos@", "contato@", "suporte@",
+      "event descriptions", "venue information",
+      "artist contacts", "public schedules"
+    ]
+  },
+  
+  "government": {
+    "description": "Órgãos governamentais",
+    "high_value_targets": [
+      "citizen data",
+      "classified documents",
+      "internal communications",
+      "system credentials",
+      "sensitive databases"
+    ],
+    "expected_public_data": [
+      "public services",
+      "contact information",
+      "public announcements",
+      "general procedures"
+    ],
+    "critical_vulnerabilities": [
+      "citizen data breach",
+      "document exposure",
+      "system compromise",
+      "privilege escalation"
+    ],
+    "false_positive_indicators": [
+      "atendimento@", "ouvidoria@", "contato@",
+      "public services", "general information"
+    ]
+  }
+}
