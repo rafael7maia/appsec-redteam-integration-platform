@@ -10,7 +10,10 @@
 
 ## 📋 **Overview**
 
-**Esta seção apresenta os componentes principais da plataforma. Após ler esta visão geral, você encontrará a arquitetura técnica, inputs obrigatórios e instruções passo-a-passo para começar a usar.**
+**Esta seção apresenta os componentes principais da plataforma. Após ler esta visão geral, você encontrará:**
+- **Seção 🏗️ Architecture** - Como funciona internamente
+- **Seção 🎯 Required Inputs** - 3 parâmetros obrigatórios
+- **Seção 🚀 Step-by-Step** - Instruções completas de uso
 
 AI Bug Bounty Framework v5.0 combines:
 - 🧠 **Smart Validation Engine** - Eliminates false positives automatically
@@ -23,7 +26,7 @@ AI Bug Bounty Framework v5.0 combines:
 
 ## 🏗️ **Architecture v5.0 - Smart Validation System**
 
-**Esta seção mostra como a plataforma funciona internamente. Compreender esta arquitetura ajudará você a entender o fluxo de dados. Os inputs necessários para iniciar estão detalhados na próxima seção.**
+**Esta seção mostra como a plataforma funciona internamente. Compreender esta arquitetura ajudará você a entender o fluxo de dados. Os inputs necessários para iniciar estão detalhados na seção "🎯 Required Inputs" logo abaixo.**
 
 ```
 ┌─────────────────┐    ┌──────────────────┐    ┌─────────────────┐
@@ -44,7 +47,7 @@ AI Bug Bounty Framework v5.0 combines:
 
 ## 🎯 **Required Inputs for Platform Start:**
 
-**ATENÇÃO: Esta seção contém os 3 parâmetros obrigatórios que você DEVE configurar antes de usar a plataforma. Sem estes inputs, o sistema não funcionará. As instruções de instalação e execução estão logo abaixo.**
+**ATENÇÃO: Esta seção contém os 3 parâmetros obrigatórios que você DEVE configurar antes de usar a plataforma. Sem estes inputs, o sistema não funcionará. As instruções de instalação e execução estão na seção "🚀 Step-by-Step Execution" logo abaixo.**
 
 ### **Mandatory Parameters:**
 ```python
@@ -69,7 +72,7 @@ AUTHORIZATION = "bug_bounty_program"    # Legal authorization proof
 
 ## 🚀 **Step-by-Step Execution (Chronological)**
 
-**Esta é a seção mais importante - siga estes 5 passos exatamente como descritos para usar a plataforma com sucesso. Cada passo é obrigatório e deve ser executado em ordem.**
+**Esta é a seção mais importante - siga estes 5 passos exatamente como descritos para usar a plataforma com sucesso. Cada passo é obrigatório e deve ser executado em ordem. Se encontrar problemas, consulte a seção "🚨 Troubleshooting" mais abaixo.**
 
 ### **Step 1: Clone Repository**
 ```bash
@@ -126,7 +129,7 @@ docker run -it hexstrike-v5
 
 ## 🛠️ **Core Components**
 
-**Esta seção explica os componentes técnicos da plataforma. Você não precisa modificar estes componentes - eles funcionam automaticamente quando você executa os passos anteriores. Esta informação é útil para entender o que acontece internamente.**
+**Esta seção explica os componentes técnicos da plataforma. Você não precisa modificar estes componentes - eles funcionam automaticamente quando você executa os passos da seção "🚀 Step-by-Step Execution". Esta informação é útil para entender o que acontece internamente.**
 
 ### **Smart Validation Engine:**
 - **False Positive Elimination** - Filters public emails (SAC, support)
@@ -156,7 +159,7 @@ docker run -it hexstrike-v5
 
 ## 🧠 **How It Works (Technical Overview)**
 
-**Esta seção detalha o funcionamento técnico interno da plataforma. É informação complementar para usuários avançados. Para uso básico, você pode pular para os exemplos práticos na próxima seção.**
+**Esta seção detalha o funcionamento técnico interno da plataforma. É informação complementar para usuários avançados. Para uso básico, você pode pular diretamente para a seção "📊 Usage Examples" logo abaixo.**
 
 ### **Phase 1: Input Validation & Target Profiling**
 ```python
@@ -201,7 +204,7 @@ final_assessment = {
 
 ## 📊 **Usage Examples**
 
-**Esta seção mostra exemplos práticos de como usar a plataforma para diferentes tipos de negócio. Escolha o exemplo mais próximo do seu caso de uso e adapte os comandos para seu target específico.**
+**Esta seção mostra exemplos práticos de como usar a plataforma para diferentes tipos de negócio. Escolha o exemplo mais próximo do seu caso de uso e adapte os comandos para seu target específico. Os resultados reais de testes estão na seção "📊 Real Test Results" logo abaixo.**
 
 ### **Example 1: E-commerce Platform**
 ```bash
@@ -257,7 +260,7 @@ python quick_start.py
 
 ## 📊 **Real Test Results (Ingresso.com Case Study)**
 
-**Esta seção apresenta resultados reais de testes da plataforma, comprovando sua eficácia. Estes dados demonstram a evolução da v4.0 para v5.0 e validam a eliminação de falsos positivos.**
+**Esta seção apresenta resultados reais de testes da plataforma, comprovando sua eficácia. Estes dados demonstram a evolução da v4.0 para v5.0 e validam a eliminação de falsos positivos. A organização dos arquivos está explicada na seção "🎯 Project Structure" logo abaixo.**
 
 ### **Before Smart Validation (v4.0):**
 ```json
@@ -290,7 +293,7 @@ python quick_start.py
 
 ## 🎯 **Project Structure**
 
-**Esta seção mostra a organização dos arquivos no repositório. Use esta informação para entender onde encontrar cada componente. Para modificações avançadas, consulte a documentação técnica na pasta /docs.**
+**Esta seção mostra a organização dos arquivos no repositório. Use esta informação para entender onde encontrar cada componente. Para modificações avançadas, consulte a documentação técnica na pasta /docs. As métricas de performance estão na seção "🏆 Success Metrics" logo abaixo.**
 
 ```
 appsec-redteam-integration-platform/
@@ -310,7 +313,7 @@ appsec-redteam-integration-platform/
 
 ## 🏆 **Success Metrics**
 
-**Esta seção apresenta métricas de performance e comparações com outras ferramentas. Estes dados ajudam você a entender os benefícios da plataforma e justificar seu uso em contextos profissionais.**
+**Esta seção apresenta métricas de performance e comparações com outras ferramentas. Estes dados ajudam você a entender os benefícios da plataforma e justificar seu uso em contextos profissionais. Os benefícios específicos por tipo de usuário estão na seção "🎯 Value Proposition" logo abaixo.**
 
 ### **Proven Results:**
 - **100% Accuracy** on real target testing (Ingresso.com)
@@ -331,7 +334,7 @@ appsec-redteam-integration-platform/
 
 ## 🎯 **Value Proposition v5.0**
 
-**Esta seção explica os benefícios específicos para diferentes tipos de usuários. Identifique seu perfil (Bug Bounty Hunter, Security Team, ou Penetration Tester) para entender como a plataforma pode ajudá-lo.**
+**Esta seção explica os benefícios específicos para diferentes tipos de usuários. Identifique seu perfil (Bug Bounty Hunter, Security Team, ou Penetration Tester) para entender como a plataforma pode ajudá-lo. Se encontrar problemas, consulte a seção "🚨 Troubleshooting" logo abaixo.**
 
 ### **For Bug Bounty Hunters:**
 - ✅ **Zero False Positives** - No wasted time on non-vulnerabilities
@@ -356,7 +359,7 @@ appsec-redteam-integration-platform/
 
 ## 🚨 **Troubleshooting**
 
-**Esta seção resolve os problemas mais comuns que você pode encontrar durante a instalação ou uso. Consulte esta seção se encontrar erros ao seguir os passos de instalação.**
+**Esta seção resolve os problemas mais comuns que você pode encontrar durante a instalação ou uso. Consulte esta seção se encontrar erros ao seguir os passos da seção "🚀 Step-by-Step Execution". As informações legais obrigatórias estão na seção "⚖️ Legal & Ethical Use" logo abaixo.**
 
 ### **Common Issues:**
 
@@ -396,7 +399,7 @@ pip install -r requirements.txt
 
 ## ⚖️ **Legal & Ethical Use**
 
-**IMPORTANTE: Esta seção define o uso legal e ético da plataforma. Leia atentamente antes de usar - você é responsável por garantir que tem autorização adequada para testar os targets escolhidos.**
+**IMPORTANTE: Esta seção define o uso legal e ético da plataforma. Leia atentamente antes de usar - você é responsável por garantir que tem autorização adequada para testar os targets escolhidos. Os recursos de suporte estão na seção "📞 Support & Documentation" logo abaixo.**
 
 ### **✅ Authorized Use:**
 - Official bug bounty programs
@@ -412,7 +415,7 @@ pip install -r requirements.txt
 
 ## 📞 **Support & Documentation**
 
-**Esta seção lista todos os recursos de suporte disponíveis. Se você não encontrou a resposta para sua dúvida nas seções anteriores, use estes canais para obter ajuda adicional.**
+**Esta seção lista todos os recursos de suporte disponíveis. Se você não encontrou a resposta para sua dúvida nas seções anteriores, use estes canais para obter ajuda adicional. O resumo para início rápido está na seção "🎯 Ready to Start" logo abaixo.**
 
 - 📖 **Full Documentation**: Check `/docs` folder
 - 🧪 **Test Examples**: Check `/tests` folder  
@@ -424,7 +427,7 @@ pip install -r requirements.txt
 
 ## 🎯 **Ready to Start? Follow This Exact Sequence:**
 
-**Esta é a seção de início rápido - um resumo dos comandos essenciais para começar imediatamente. Se você leu as seções anteriores, pode executar estes comandos diretamente para começar a usar a plataforma.**
+**Esta é a seção de início rápido - um resumo dos comandos essenciais para começar imediatamente. Se você leu as seções anteriores (especialmente "🎯 Required Inputs" e "🚀 Step-by-Step Execution"), pode executar estes comandos diretamente para começar a usar a plataforma.**
 
 ```bash
 # 1. Clone and setup
