@@ -36,6 +36,7 @@ class CoreScanner:
         self.target_domain = target_domain
         self.target_profile = target_profile
         self.authorization = authorization
+        self.appsec_context = None  # Store AppSec results for validation
         self.results = {
             'scan_info': {
                 'target': target_domain,
@@ -48,6 +49,12 @@ class CoreScanner:
             'validation_results': {},
             'final_assessment': {}
         }
+    
+    def set_appsec_context(self, appsec_results):
+        """Set AppSec results for Red Team validation"""
+        self.appsec_context = appsec_results
+        print(f"Red Team received {len(appsec_results.get('sast_results', []))} SAST findings for validation")
+        print(f"Red Team received {len(appsec_results.get('dast_results', []))} DAST findings for validation")
     
     def validate_inputs(self):
         """Validate required inputs"""
@@ -65,7 +72,7 @@ class CoreScanner:
     def run_complete_scan(self):
         """Execute complete security scan with smart validation"""
         
-        print(f"🎯 AI Bug Bounty Framework v5.0 - Starting scan")
+        print(f"AI Bug Bounty Framework v5.0 - Starting scan")
         print(f"Target: {self.target_domain}")
         print(f"Profile: {self.target_profile}")
         print(f"Authorization: {self.authorization}")
@@ -75,19 +82,24 @@ class CoreScanner:
         self.validate_inputs()
         
         # Phase 1: Adaptive Reconnaissance
-        print("\n📡 Phase 1: Adaptive Reconnaissance")
+        print("\nPhase 1: Adaptive Reconnaissance")
         recon = AdaptiveRecon(self.target_domain)
         recon_results = recon.run()
         self.results['protection_analysis'] = recon_results['protection_analysis']
         
-        # Phase 2: Smart Validation Scan
-        print("\n🧠 Phase 2: Smart Validation Scan")
+        # Phase 2: Smart Validation Scan with AppSec Context
+        print("\nPhase 2: Smart Validation Scan")
         bridge = EnhancedSecurityBridge(target_profile=self.target_profile)
+        
+        # Pass AppSec context to validation bridge
+        if self.appsec_context:
+            bridge.set_appsec_findings(self.appsec_context)
+        
         validation_results = bridge.scan_with_validation(self.target_domain)
         self.results['validation_results'] = validation_results
         
         # Phase 3: Final Assessment
-        print("\n📊 Phase 3: Final Assessment")
+        print("\nPhase 3: Final Assessment")
         self.generate_final_assessment()
         
         # Save results
@@ -163,7 +175,7 @@ class CoreScanner:
         with open(filename, 'w', encoding='utf-8') as f:
             json.dump(self.results, f, indent=2, ensure_ascii=False)
         
-        print(f"\n💾 Results saved: {filename}")
+        print(f"\nResults saved: {filename}")
         return filename
 
 def main():
@@ -186,11 +198,11 @@ def main():
         results = scanner.run_complete_scan()
         
         print("\n" + "=" * 60)
-        print("🎯 SCAN COMPLETE")
+        print("SCAN COMPLETE")
         print("=" * 60)
         
     except Exception as e:
-        print(f"❌ Error: {str(e)}")
+        print(f"Error: {str(e)}")
         sys.exit(1)
 
 if __name__ == "__main__":

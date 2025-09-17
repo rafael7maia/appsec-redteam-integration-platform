@@ -4,6 +4,22 @@ cicd/results/gitleaks-report.json
 cicd/results/bandit-results.json
 cicd/results/*.json
 
+# Vulnerable Applications (Educational Only - Not for Public Repos)
+projetos/techcorp/app/
+projetos/*/app/app.py
+projetos/*/app/requirements.txt
+projetos/*/app/Dockerfile
+
+# Scan Results and Reports
+projetos/*/integrated_results_v5.json
+projetos/*/appsec_results.json
+projetos/*/*.json
+*_scan_results_v5.json
+
+# Configuration Files with Sensitive Data
+config.env
+projetos/*/config.env
+
 # Docker volumes
 cicd/results/
 *.log

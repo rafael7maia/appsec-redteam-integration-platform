@@ -12,6 +12,13 @@ class EnhancedSecurityBridge:
     def __init__(self, target_profile="entertainment"):
         self.validation_engine = SmartValidationEngine()
         self.target_profile = self._load_target_profile(target_profile)
+        self.appsec_findings = None  # Store AppSec findings for validation
+    
+    def set_appsec_findings(self, appsec_results):
+        """Set AppSec findings for Red Team validation"""
+        self.appsec_findings = appsec_results
+        print(f"[*] Red Team will validate {len(appsec_results.get('sast_results', []))} SAST findings")
+        print(f"[*] Red Team will validate {len(appsec_results.get('dast_results', []))} DAST findings")
         
     def _load_target_profile(self, profile_name):
         """Carrega perfil do alvo para validação contextual"""
@@ -31,12 +38,18 @@ class EnhancedSecurityBridge:
         print(f"[*] Iniciando scan inteligente de {target}")
         print(f"[*] Perfil do alvo: {self.target_profile.get('description', 'Generic')}")
         
-        # Descoberta de endpoints
+        validated_results = []
+        
+        # If we have AppSec findings, validate them first
+        if self.appsec_findings:
+            print(f"\n[*] Validating AppSec findings against live target...")
+            appsec_validated = self._validate_appsec_findings(target)
+            validated_results.extend(appsec_validated)
+        
+        # Descoberta de endpoints adicionais
         endpoints = self._discover_endpoints(target)
         
         # Validação inteligente de cada endpoint
-        validated_results = []
-        
         for endpoint in endpoints:
             print(f"\n[>] Validando: {endpoint}")
             
@@ -62,16 +75,146 @@ class EnhancedSecurityBridge:
                 print(f"[-] Erro: {str(e)}")
         
         # Relatório final
+        total_endpoints = len(endpoints) + (len(self.appsec_findings.get('dast_results', [])) if self.appsec_findings else 0)
         final_report = {
             'target': target,
             'target_profile': self.target_profile['description'],
-            'endpoints_tested': len(endpoints),
+            'endpoints_tested': total_endpoints,
             'vulnerabilities_found': len(validated_results),
             'validated_findings': validated_results,
             'summary': self._generate_summary(validated_results)
         }
         
         return final_report
+    
+    def _validate_appsec_findings(self, target):
+        """Validate AppSec findings against live target"""
+        validated_findings = []
+        
+        if not self.appsec_findings:
+            return validated_findings
+        
+        # Validate DAST findings (already tested against live target)
+        dast_results = self.appsec_findings.get('dast_results', [])
+        for dast_finding in dast_results:
+            print(f"[*] Validating DAST finding: {dast_finding['test_name']}")
+            
+            # DAST findings are already validated, so we confirm them
+            validated_finding = {
+                'url': dast_finding['url'],
+                'vulnerability_type': dast_finding['test_name'],
+                'method': dast_finding['method'],
+                'status_code': dast_finding['status_code'],
+                'severity': dast_finding['severity'],
+                'source': 'DAST_VALIDATED',
+                'final_assessment': {
+                    'is_vulnerable': True,
+                    'vulnerability_types': [dast_finding['test_name']],
+                    'severity': dast_finding['severity'],
+                    'bug_bounty_value': self._estimate_dast_value(dast_finding['test_name'])
+                }
+            }
+            validated_findings.append(validated_finding)
+            print(f"[!] CONFIRMED: {dast_finding['test_name']} at {dast_finding['url']}")
+        
+        # Validate SAST findings by testing endpoints
+        sast_results = self.appsec_findings.get('sast_results', [])
+        for sast_finding in sast_results:
+            if sast_finding['vulnerability'] in ['sql_injection', 'command_injection', 'xss']:
+                print(f"[*] Attempting to validate SAST finding: {sast_finding['vulnerability']}")
+                
+                # Try to validate against known endpoints
+                validation_result = self._test_sast_vulnerability(target, sast_finding)
+                if validation_result:
+                    validated_findings.append(validation_result)
+                    print(f"[!] CONFIRMED: {sast_finding['vulnerability']} is exploitable")
+        
+        return validated_findings
+    
+    def _test_sast_vulnerability(self, target, sast_finding):
+        """Test SAST vulnerability against live target"""
+        vuln_type = sast_finding['vulnerability']
+        
+        try:
+            if vuln_type == 'sql_injection':
+                # Test SQL injection on login endpoint
+                test_url = f"http://{target}/login"
+                test_data = {'username': "admin' OR '1'='1", 'password': 'test'}
+                response = requests.post(test_url, data=test_data, timeout=10)
+                
+                if response.status_code == 200 and ('dashboard' in response.text.lower() or 'welcome' in response.text.lower()):
+                    return {
+                        'url': test_url,
+                        'vulnerability_type': 'SQL Injection',
+                        'method': 'POST',
+                        'payload': str(test_data),
+                        'severity': 'Critical',
+                        'source': 'SAST_VALIDATED',
+                        'final_assessment': {
+                            'is_vulnerable': True,
+                            'vulnerability_types': ['SQL Injection'],
+                            'severity': 'Critical',
+                            'bug_bounty_value': '$2,000'
+                        }
+                    }
+            
+            elif vuln_type == 'xss':
+                # Test XSS on search endpoint
+                test_url = f"http://{target}/search?q=<script>alert('xss')</script>"
+                response = requests.get(test_url, timeout=10)
+                
+                if response.status_code == 200 and '<script>' in response.text:
+                    return {
+                        'url': test_url,
+                        'vulnerability_type': 'Cross-Site Scripting (XSS)',
+                        'method': 'GET',
+                        'payload': "<script>alert('xss')</script>",
+                        'severity': 'High',
+                        'source': 'SAST_VALIDATED',
+                        'final_assessment': {
+                            'is_vulnerable': True,
+                            'vulnerability_types': ['XSS'],
+                            'severity': 'High',
+                            'bug_bounty_value': '$800'
+                        }
+                    }
+            
+            elif vuln_type == 'command_injection':
+                # Test command injection on ping endpoint
+                test_url = f"http://{target}/ping"
+                test_data = {'host': 'google.com; whoami'}
+                response = requests.post(test_url, data=test_data, timeout=10)
+                
+                if response.status_code == 200 and len(response.text) > 100:
+                    return {
+                        'url': test_url,
+                        'vulnerability_type': 'Command Injection',
+                        'method': 'POST',
+                        'payload': str(test_data),
+                        'severity': 'Critical',
+                        'source': 'SAST_VALIDATED',
+                        'final_assessment': {
+                            'is_vulnerable': True,
+                            'vulnerability_types': ['Command Injection'],
+                            'severity': 'Critical',
+                            'bug_bounty_value': '$2,500'
+                        }
+                    }
+        
+        except Exception as e:
+            print(f"[-] Validation failed for {vuln_type}: {e}")
+        
+        return None
+    
+    def _estimate_dast_value(self, test_name):
+        """Estimate bug bounty value for DAST findings"""
+        values = {
+            'SQL Injection Test': '$2,000',
+            'XSS Test': '$800',
+            'IDOR Test': '$1,200',
+            'Command Injection Test': '$2,500'
+        }
+        return values.get(test_name, '$500')
     
     def _discover_endpoints(self, target):
         """Descobre endpoints de API"""

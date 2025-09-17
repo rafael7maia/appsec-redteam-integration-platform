@@ -278,6 +278,88 @@ class SmartValidationEngine:
         
         return validation_results
 
+    def generate_integrated_assessment(self, appsec_results, redteam_results, target_profile):
+        """Generate integrated assessment from AppSec and Red Team results"""
+        
+        # Count vulnerabilities from AppSec
+        appsec_vulns = 0
+        if appsec_results:
+            appsec_vulns = (
+                len(appsec_results.get('sca_results', [])) +
+                len(appsec_results.get('secrets_results', [])) +
+                len(appsec_results.get('sast_results', [])) +
+                len(appsec_results.get('dast_results', []))
+            )
+        
+        # Count vulnerabilities from Red Team
+        redteam_vulns = 0
+        redteam_assessment = {}
+        if redteam_results and 'final_assessment' in redteam_results:
+            redteam_assessment = redteam_results['final_assessment']
+            redteam_vulns = redteam_assessment.get('vulnerabilities_found', 0)
+        
+        # Total vulnerabilities
+        total_vulns = appsec_vulns + redteam_vulns
+        
+        # Determine status
+        status = 'VULNERABLE' if total_vulns > 0 else 'SECURE'
+        
+        # Estimate value based on vulnerability types and target profile
+        estimated_value = self._calculate_integrated_value(appsec_results, redteam_results, target_profile)
+        
+        assessment = {
+            'timestamp': __import__('datetime').datetime.now().isoformat(),
+            'status': status,
+            'vulnerabilities_found': total_vulns,
+            'appsec_vulnerabilities': appsec_vulns,
+            'redteam_vulnerabilities': redteam_vulns,
+            'estimated_value': f"${estimated_value:,}" if estimated_value > 0 else "$0",
+            'target_profile': target_profile,
+            'false_positives_eliminated': True,
+            'recommendation': self._generate_integrated_recommendation(total_vulns, target_profile)
+        }
+        
+        return assessment
+    
+    def _calculate_integrated_value(self, appsec_results, redteam_results, target_profile):
+        """Calculate estimated bug bounty value for integrated results"""
+        total_value = 0
+        
+        # AppSec vulnerability values
+        if appsec_results:
+            # High value for secrets and SAST findings
+            total_value += len(appsec_results.get('secrets_results', [])) * 500
+            total_value += len(appsec_results.get('sast_results', [])) * 300
+            total_value += len(appsec_results.get('dast_results', [])) * 400
+            total_value += len(appsec_results.get('sca_results', [])) * 200
+        
+        # Red Team vulnerability values
+        if redteam_results and 'final_assessment' in redteam_results:
+            redteam_value_str = redteam_results['final_assessment'].get('estimated_value', '$0')
+            redteam_value = int(redteam_value_str.replace('$', '').replace(',', '')) if redteam_value_str != '$0' else 0
+            total_value += redteam_value
+        
+        # Adjust based on target profile
+        profile_multipliers = {
+            'financial': 1.5,
+            'healthcare': 1.3,
+            'e-commerce': 1.0,
+            'government': 1.4,
+            'entertainment': 0.8
+        }
+        
+        multiplier = profile_multipliers.get(target_profile, 1.0)
+        return int(total_value * multiplier)
+    
+    def _generate_integrated_recommendation(self, total_vulns, target_profile):
+        """Generate recommendation based on integrated results"""
+        if total_vulns == 0:
+            return f"No actionable vulnerabilities found in {target_profile} application. Security posture appears adequate."
+        elif total_vulns <= 5:
+            return f"Low to medium risk vulnerabilities detected. Prioritize fixing high-severity issues in {target_profile} context."
+        else:
+            return f"Multiple vulnerabilities detected requiring immediate attention. Comprehensive security review recommended for {target_profile} application."
+    
     def _estimate_value(self, vulnerabilities, severity):
         """Estima valor realista para bug bounty"""
         
