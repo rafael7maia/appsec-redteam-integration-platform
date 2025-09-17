@@ -1,6 +1,6 @@
-# 🛡️ AI Bug Bounty Framework v5.0 - Anti-False Positive Edition
+# 🛡️ AI AppSec + Red Team Integration Platform v5.0
 
-> **Intelligent vulnerability discovery with smart validation - eliminates false positives**
+> **Complete security testing pipeline: AppSec analysis + Red Team validation with smart false positive elimination**
 
 [![Amazon Q](https://img.shields.io/badge/Amazon%20Q-AI%20Assistant-orange)](https://aws.amazon.com/q/)
 [![Docker](https://img.shields.io/badge/Docker-Container-blue)](https://docker.com)
@@ -10,12 +10,36 @@
 
 ## 📋 **Overview**
 
-**Esta seção apresenta os componentes principais da plataforma. Após ler esta visão geral, você encontrará:**
+**Esta seção apresenta os 3 modos de operação da plataforma. Após ler esta visão geral, você encontrará:**
 - **Seção 🏗️ Architecture** - Como funciona internamente
-- **Seção 🎯 Required Inputs** - 3 parâmetros obrigatórios
+- **Seção 🎯 Operation Modes** - 3 modos de operação disponíveis
+- **Seção 📋 Required Inputs** - Parâmetros obrigatórios por modo
 - **Seção 🚀 Step-by-Step** - Instruções completas de uso
 
-AI Bug Bounty Framework v5.0 combines:
+AI AppSec + Red Team Integration Platform v5.0 oferece **3 modos de operação**:
+
+### **🔍 Modo 1: AppSec Only**
+- **Propósito**: Análise de código fonte e dependências
+- **Input**: Código fonte na pasta `projetos/{empresa}/app/`
+- **Processo**: SCA → Secrets → SAST → DAST → Relatório
+- **Output**: Relatório AppSec com vulnerabilidades encontradas
+- **Uso**: DevSecOps, CI/CD pipeline, auditoria de código
+
+### **🔄 Modo 2: AppSec + Red Team (Completo)**
+- **Propósito**: Análise completa com validação de exploração
+- **Input**: Código fonte + URL da aplicação deployada
+- **Processo**: AppSec → Red Team validation → Proof of Concept
+- **Output**: Relatório integrado com provas de exploração
+- **Uso**: Pentest completo, validação de segurança, compliance
+
+### **🎯 Modo 3: Red Team Only**
+- **Propósito**: Bug bounty hunting e pentest externo
+- **Input**: Apenas URL/domínio do target
+- **Processo**: Reconnaissance → Exploitation → Validation
+- **Output**: Relatório de vulnerabilidades com evidências
+- **Uso**: Bug bounty, pentest black-box, red team exercises
+
+A plataforma combina:
 - 🧠 **Smart Validation Engine** - Eliminates false positives automatically
 - 🎯 **Target Profile System** - Context-aware validation by business type
 - 🔍 **Real Vulnerability Detection** - Focuses only on exploitable issues
@@ -24,30 +48,95 @@ AI Bug Bounty Framework v5.0 combines:
 - 📊 **Accurate Reports** - Realistic bug bounty value estimation
 - ⚡ **Proven Results** - Tested against real targets (Ingresso.com)
 
-## 🏗️ **Architecture v5.0 - Smart Validation System**
+## 🏗️ **Architecture v5.0 - Integrated AppSec + Red Team**
 
-**Esta seção mostra como a plataforma funciona internamente. Compreender esta arquitetura ajudará você a entender o fluxo de dados. Os inputs necessários para iniciar estão detalhados na seção "🎯 Required Inputs" logo abaixo.**
+**Esta seção mostra como a plataforma funciona internamente nos 3 modos de operação. Compreender esta arquitetura ajudará você a entender o fluxo de dados. Os modos de operação estão detalhados na seção "🎯 Operation Modes" logo abaixo.**
 
 ```
 ┌─────────────────┐    ┌──────────────────┐    ┌─────────────────┐
-│  Target Input   │    │ Smart Validation │    │ Real Vulns Only │
-│  Domain + Type  │───►│ Context Analysis │───►│ Accurate Report │
-│  Profile Select │    │ False Pos Filter │    │ Bug Bounty Value│
+│   Mode Select   │    │  AppSec Pipeline │    │  Red Team Val   │
+│ 1.AppSec Only   │───►│ SCA→SAST→DAST   │───►│ Exploit Proof   │
+│ 2.AppSec+RedTeam│    │ Smart Validation │    │ Real Vulns Only │
+│ 3.RedTeam Only  │    │ False Pos Filter │    │ Accurate Report │
 └─────────────────┘    └──────────────────┘    └─────────────────┘
          ▲                        ▲                        ▲
          │                        │                        │
-         └────────── Eliminate False Positives ──────────────┘
+         └────────── Integrated Security Testing Pipeline ──────────────┘
 ```
 
 ### **🔧 Key Components:**
-- **Layer 1:** Target Profiling (Entertainment, E-commerce, Financial, etc.)
-- **Layer 2:** Smart Validation Engine (Context-aware filtering)
-- **Layer 3:** Real Vulnerability Detection (Proven exploitable issues)
-- **Layer 4:** Accurate Reporting (Realistic value estimation)
+- **Layer 1:** Operation Mode Selection (AppSec, AppSec+RedTeam, RedTeam)
+- **Layer 2:** AppSec Pipeline (SCA, Secrets, SAST, DAST)
+- **Layer 3:** Red Team Validation (Smart validation, exploit proof)
+- **Layer 4:** Integrated Reporting (AppSec findings + Red Team validation)
 
-## 🎯 **Required Inputs for Platform Start:**
+## 🎯 **Operation Modes & Required Inputs**
 
-**ATENÇÃO: Esta seção contém os 3 parâmetros obrigatórios que você DEVE configurar antes de usar a plataforma. Sem estes inputs, o sistema não funcionará. As instruções de instalação e execução estão na seção "🚀 Step-by-Step Execution" logo abaixo.**
+**ATENÇÃO: Esta seção define os 3 modos de operação e seus inputs obrigatórios. Escolha o modo adequado para sua necessidade. A plataforma validará automaticamente se os inputs necessários estão presentes. As instruções de instalação e execução estão na seção "🚀 Step-by-Step Execution" logo abaixo.**
+
+## 🔍 **Modo 1: AppSec Only**
+
+### **Quando Usar:**
+- Você tem o código fonte da aplicação
+- Quer executar pipeline de segurança no CI/CD
+- Precisa de auditoria de código e dependências
+- Não precisa de validação externa (Red Team)
+
+### **Inputs Obrigatórios:**
+```python
+OPERATION_MODE = "appsec"                    # Modo de operação
+PROJECT_NAME = "empresa_cliente"             # Nome do projeto
+AUTHORIZATION = "code_audit"                 # Tipo de autorização
+# Código fonte DEVE estar em: projetos/{PROJECT_NAME}/app/
+```
+
+### **Estrutura Necessária:**
+```
+projetos/
+└── empresa_cliente/
+    ├── config.env                    # Configuração
+    └── app/                          # OBRIGATÓRIO: Código fonte
+        ├── src/
+        ├── requirements.txt
+        ├── package.json
+        └── ...
+```
+
+## 🔄 **Modo 2: AppSec + Red Team (Completo)**
+
+### **Quando Usar:**
+- Você tem código fonte E aplicação deployada
+- Quer validação completa (AppSec + exploração)
+- Precisa provar que vulnerabilidades são exploráveis
+- Pentest completo com evidências
+
+### **Inputs Obrigatórios:**
+```python
+OPERATION_MODE = "appsec_redteam"             # Modo integrado
+PROJECT_NAME = "empresa_cliente"             # Nome do projeto
+TARGET_DOMAIN = "app.empresa.com"            # Aplicação deployada
+TARGET_PROFILE = "e-commerce"                # Tipo de negócio
+AUTHORIZATION = "penetration_test"           # Autorização completa
+# Código fonte DEVE estar em: projetos/{PROJECT_NAME}/app/
+```
+
+## 🎯 **Modo 3: Red Team Only**
+
+### **Quando Usar:**
+- Bug bounty hunting
+- Pentest black-box (sem código fonte)
+- Teste externo de aplicação
+- Validação de segurança externa
+
+### **Inputs Obrigatórios:**
+```python
+OPERATION_MODE = "redteam"                   # Modo Red Team
+PROJECT_NAME = "empresa_cliente"             # Nome do projeto
+TARGET_DOMAIN = "target.com"                 # Domínio alvo
+TARGET_PROFILE = "entertainment"             # Tipo de negócio
+AUTHORIZATION = "bug_bounty_program"         # Autorização
+# Código fonte NÃO é necessário
+```
 
 ### **Mandatory Parameters:**
 ```python
@@ -57,18 +146,19 @@ TARGET_PROFILE = "entertainment"        # Business type profile
 AUTHORIZATION = "bug_bounty_program"    # Legal authorization proof
 ```
 
-### **Target Profile Options:**
+### **Target Profile Options (Modos 2 e 3):**
 - `"entertainment"` - Events, tickets, shows (like Ingresso.com)
 - `"e-commerce"` - Online stores, marketplaces
 - `"financial"` - Banks, fintech, payment systems
 - `"healthcare"` - Medical systems, clinics
 - `"government"` - Public sector, agencies
 
-### **Authorization Requirements:**
-- `"bug_bounty_program"` - Official bug bounty program
-- `"penetration_test"` - Contracted pentest
-- `"own_system"` - Your own system/application
-- `"educational_lab"` - Lab environment for learning
+### **Authorization Types:**
+- `"code_audit"` - Auditoria de código (Modo 1)
+- `"penetration_test"` - Pentest completo (Modo 2)
+- `"bug_bounty_program"` - Bug bounty oficial (Modo 3)
+- `"own_system"` - Sistema próprio (Todos os modos)
+- `"educational_lab"` - Ambiente de aprendizado (Todos os modos)
 
 ## 🚀 **Step-by-Step Execution (Chronological)**
 
@@ -85,46 +175,76 @@ cd appsec-redteam-integration-platform
 pip install -r requirements.txt
 ```
 
-### **Step 3: Configure Target (MANDATORY)**
+### **Step 3: Configure Operation Mode (MANDATORY)**
 ```bash
-# Create config.env with your target information
-echo "TARGET_DOMAIN=example.com" > config.env
+# Exemplo: Modo AppSec Only
+echo "OPERATION_MODE=appsec" > config.env
+echo "PROJECT_NAME=minha_empresa" >> config.env
+echo "AUTHORIZATION=code_audit" >> config.env
+
+# Exemplo: Modo AppSec + Red Team
+echo "OPERATION_MODE=appsec_redteam" > config.env
+echo "PROJECT_NAME=minha_empresa" >> config.env
+echo "TARGET_DOMAIN=app.minhaempresa.com" >> config.env
+echo "TARGET_PROFILE=e-commerce" >> config.env
+echo "AUTHORIZATION=penetration_test" >> config.env
+
+# Exemplo: Modo Red Team Only
+echo "OPERATION_MODE=redteam" > config.env
+echo "PROJECT_NAME=target_empresa" >> config.env
+echo "TARGET_DOMAIN=target.com" >> config.env
 echo "TARGET_PROFILE=entertainment" >> config.env
 echo "AUTHORIZATION=bug_bounty_program" >> config.env
 ```
 
-### **Step 4: Execute Smart Scan (One Command)**
+### **Step 4: Prepare Project Structure (If AppSec Mode)**
 ```bash
-# Run complete scan with smart validation
+# Para Modo 1 (AppSec) ou Modo 2 (AppSec+RedTeam)
+# Copie seu código fonte para a pasta do projeto
+mkdir -p projetos/minha_empresa/app
+# Copie todo o código fonte para projetos/minha_empresa/app/
+```
+
+### **Step 5: Execute Integrated Pipeline (One Command)**
+```bash
+# Run complete pipeline based on selected mode
 python quick_start.py
 
 # Expected output:
-# 🚀 AI Bug Bounty Framework v5.0 - Quick Start
-# Target: example.com
-# Profile: entertainment
-# 📡 Phase 1: Adaptive Reconnaissance
-# 🧠 Phase 2: Smart Validation Scan
-# 📊 Phase 3: Final Assessment
-# Status: SECURE/VULNERABLE
+# 🚀 AI AppSec + Red Team Platform v5.0 - Quick Start
+# Operation Mode: appsec_redteam
+# Project: minha_empresa
+# 📋 Phase 1: AppSec Pipeline (SCA, SAST, DAST)
+# 🎯 Phase 2: Red Team Validation
+# 📊 Phase 3: Integrated Assessment
+# Status: SECURE/VULNERABLE with proof
 ```
 
-### **Step 5: Review Results**
+### **Step 6: Review Results**
 ```bash
-# Results automatically saved as:
-# example.com_scan_results_v5.json
+# Results automatically saved in project folder:
+# projetos/minha_empresa/integrated_results_v5.json
+# projetos/minha_empresa/appsec_report.html
+# projetos/minha_empresa/redteam_report.html
 
 # View detailed results
-cat example.com_scan_results_v5.json
+cat projetos/minha_empresa/integrated_results_v5.json
 ```
 
 ### **Alternative: Advanced Usage**
 ```bash
-# Direct core scanner usage
-python core_scanner.py example.com entertainment bug_bounty_program
+# Direct core scanner usage with mode
+python core_scanner.py --mode appsec_redteam --project minha_empresa
+
+# AppSec pipeline only
+python cicd/secure_pipeline.py --project minha_empresa
+
+# Red Team validation only
+python enhanced_security_bridge.py --target app.empresa.com
 
 # Docker container (optional)
-docker build -f Dockerfile.test -t hexstrike-v5 .
-docker run -it hexstrike-v5
+docker build -f Dockerfile.test -t appsec-redteam-v5 .
+docker run -it appsec-redteam-v5
 ```
 
 ## 🛠️ **Core Components**
