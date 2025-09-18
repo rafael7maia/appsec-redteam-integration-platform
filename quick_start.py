@@ -24,11 +24,142 @@ def load_config():
 
 # Configuration validation is now handled by ModeSelector class
 
-def main():
-    """Quick start execution with mode selection"""
-    
-    print("AI AppSec + Red Team Integration Platform v5.0 - Quick Start")
+def interactive_setup():
+    """Interactive setup for operation mode and configuration"""
+    print("AI AppSec + Red Team Integration Platform v5.0 - Interactive Setup")
     print("=" * 70)
+    
+    # Mode selection
+    print("\nSelecione o modo de operacao:")
+    print("1. AppSec Only - Analise de codigo fonte (SCA, Secrets, SAST, DAST)")
+    print("2. AppSec + Red Team - Analise completa com validacao externa")
+    print("3. Red Team Only - Bug bounty hunting e pentest externo")
+    
+    while True:
+        choice = input("\nEscolha (1-3): ").strip()
+        if choice in ['1', '2', '3']:
+            break
+        print("Opcao invalida. Digite 1, 2 ou 3.")
+    
+    # Map choice to mode
+    mode_map = {
+        '1': 'appsec',
+        '2': 'appsec_redteam', 
+        '3': 'redteam'
+    }
+    operation_mode = mode_map[choice]
+    
+    # Project name
+    project_name = input("\nNome do projeto: ").strip()
+    if not project_name:
+        project_name = "default_project"
+    
+    config = {
+        'OPERATION_MODE': operation_mode,
+        'PROJECT_NAME': project_name
+    }
+    
+    # Mode-specific configuration
+    if operation_mode in ['appsec_redteam', 'redteam']:
+        print("\n--- Configuracao Red Team ---")
+        target_domain = input("Target domain (ex: example.com): ").strip()
+        
+        print("\nTipo de negocio do target:")
+        print("1. Entertainment (eventos, ingressos)")
+        print("2. E-commerce (lojas online)")
+        print("3. Financial (bancos, fintech)")
+        print("4. Healthcare (sistemas medicos)")
+        print("5. Government (setor publico)")
+        
+        while True:
+            profile_choice = input("\nEscolha (1-5): ").strip()
+            if profile_choice in ['1', '2', '3', '4', '5']:
+                break
+            print("Opcao invalida. Digite 1-5.")
+        
+        profile_map = {
+            '1': 'entertainment',
+            '2': 'e-commerce',
+            '3': 'financial',
+            '4': 'healthcare',
+            '5': 'government'
+        }
+        target_profile = profile_map[profile_choice]
+        
+        print("\nTipo de autorizacao:")
+        print("1. Bug Bounty Program (programa oficial)")
+        print("2. Penetration Test (teste contratado)")
+        print("3. Own System (sistema proprio)")
+        print("4. Educational Lab (ambiente educacional)")
+        
+        while True:
+            auth_choice = input("\nEscolha (1-4): ").strip()
+            if auth_choice in ['1', '2', '3', '4']:
+                break
+            print("Opcao invalida. Digite 1-4.")
+        
+        auth_map = {
+            '1': 'bug_bounty_program',
+            '2': 'penetration_test',
+            '3': 'own_system',
+            '4': 'educational_lab'
+        }
+        authorization = auth_map[auth_choice]
+        
+        config['TARGET_DOMAIN'] = target_domain
+        config['TARGET_PROFILE'] = target_profile
+        config['AUTHORIZATION'] = authorization
+    
+    else:  # AppSec only
+        print("\n--- Configuracao AppSec ---")
+        print("1. Code Audit (auditoria de codigo)")
+        print("2. Own System (sistema proprio)")
+        print("3. Educational Lab (ambiente educacional)")
+        
+        while True:
+            auth_choice = input("\nEscolha (1-3): ").strip()
+            if auth_choice in ['1', '2', '3']:
+                break
+            print("Opcao invalida. Digite 1-3.")
+        
+        auth_map = {
+            '1': 'code_audit',
+            '2': 'own_system',
+            '3': 'educational_lab'
+        }
+        authorization = auth_map[auth_choice]
+        config['AUTHORIZATION'] = authorization
+    
+    # Save configuration
+    with open('config.env', 'w') as f:
+        for key, value in config.items():
+            f.write(f"{key}={value}\n")
+    
+    print("\n" + "=" * 70)
+    print("CONFIGURACAO SALVA")
+    print("=" * 70)
+    for key, value in config.items():
+        print(f"{key}: {value}")
+    
+    return config
+
+def main():
+    """Quick start execution with interactive mode selection"""
+    
+    # Check if config.env exists, if not run interactive setup
+    if not os.path.exists('config.env'):
+        print("Arquivo config.env nao encontrado. Iniciando configuracao interativa...\n")
+        config = interactive_setup()
+    else:
+        print("AI AppSec + Red Team Integration Platform v5.0 - Quick Start")
+        print("=" * 70)
+        
+        # Ask if user wants to reconfigure
+        reconfigure = input("\nconfig.env encontrado. Deseja reconfigurar? (s/N): ").strip().lower()
+        if reconfigure in ['s', 'sim', 'y', 'yes']:
+            config = interactive_setup()
+        else:
+            config = None
     
     try:
         # Validate mode and configuration
