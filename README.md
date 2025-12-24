@@ -415,7 +415,6 @@ Reference: HEXSTRIKE_INTEGRATION.md → Docker Deployment
 - ⭐ [Repository](https://github.com/rafael7maia/appsec-redteam-integration-platform) - See code & commits
 
 ### **Direct Contact**
-- 📧 Email: rafael@trmeducacao.com.br
 - 💼 LinkedIn: Rafael Maia
 - 🐙 GitHub: [@rafael7maia](https://github.com/rafael7maia)
 
