@@ -28,24 +28,26 @@ def interactive_setup():
     """Interactive setup for operation mode and configuration"""
     print("AI AppSec + Red Team Integration Platform v5.0 - Interactive Setup")
     print("=" * 70)
-    
+
     # Mode selection
     print("\nSelecione o modo de operacao:")
     print("1. AppSec Only - Analise de codigo fonte (SCA, Secrets, SAST, DAST)")
     print("2. AppSec + Red Team - Analise completa com validacao externa")
     print("3. Red Team Only - Bug bounty hunting e pentest externo")
+    print("4. TypeScript/Node.js Scanner - Analise especializada para Express + Prisma")
     
     while True:
-        choice = input("\nEscolha (1-3): ").strip()
-        if choice in ['1', '2', '3']:
+        choice = input("\nEscolha (1-4): ").strip()
+        if choice in ['1', '2', '3', '4']:
             break
-        print("Opcao invalida. Digite 1, 2 ou 3.")
-    
+        print("Opcao invalida. Digite 1, 2, 3 ou 4.")
+
     # Map choice to mode
     mode_map = {
         '1': 'appsec',
-        '2': 'appsec_redteam', 
-        '3': 'redteam'
+        '2': 'appsec_redteam',
+        '3': 'redteam',
+        '4': 'typescript_scanner'
     }
     operation_mode = mode_map[choice]
     
@@ -60,23 +62,32 @@ def interactive_setup():
     }
     
     # Mode-specific configuration
-    if operation_mode in ['appsec_redteam', 'redteam']:
+    if operation_mode == 'typescript_scanner':
+        print("\n--- Configuracao TypeScript/Node.js Scanner ---")
+        backend_path = input("Caminho do backend (ex: projetos/agendatroca/app/backend): ").strip()
+        if not backend_path:
+            backend_path = f"projetos/{project_name}/app/backend"
+
+        config['BACKEND_PATH'] = backend_path
+        config['AUTHORIZATION'] = 'educational_lab'
+
+    elif operation_mode in ['appsec_redteam', 'redteam']:
         print("\n--- Configuracao Red Team ---")
         target_domain = input("Target domain (ex: example.com): ").strip()
-        
+
         print("\nTipo de negocio do target:")
         print("1. Entertainment (eventos, ingressos)")
         print("2. E-commerce (lojas online)")
         print("3. Financial (bancos, fintech)")
         print("4. Healthcare (sistemas medicos)")
         print("5. Government (setor publico)")
-        
+
         while True:
             profile_choice = input("\nEscolha (1-5): ").strip()
             if profile_choice in ['1', '2', '3', '4', '5']:
                 break
             print("Opcao invalida. Digite 1-5.")
-        
+
         profile_map = {
             '1': 'entertainment',
             '2': 'e-commerce',
@@ -85,19 +96,19 @@ def interactive_setup():
             '5': 'government'
         }
         target_profile = profile_map[profile_choice]
-        
+
         print("\nTipo de autorizacao:")
         print("1. Bug Bounty Program (programa oficial)")
         print("2. Penetration Test (teste contratado)")
         print("3. Own System (sistema proprio)")
         print("4. Educational Lab (ambiente educacional)")
-        
+
         while True:
             auth_choice = input("\nEscolha (1-4): ").strip()
             if auth_choice in ['1', '2', '3', '4']:
                 break
             print("Opcao invalida. Digite 1-4.")
-        
+
         auth_map = {
             '1': 'bug_bounty_program',
             '2': 'penetration_test',
@@ -105,11 +116,11 @@ def interactive_setup():
             '4': 'educational_lab'
         }
         authorization = auth_map[auth_choice]
-        
+
         config['TARGET_DOMAIN'] = target_domain
         config['TARGET_PROFILE'] = target_profile
         config['AUTHORIZATION'] = authorization
-    
+
     else:  # AppSec only
         print("\n--- Configuracao AppSec ---")
         print("1. Code Audit (auditoria de codigo)")
@@ -178,6 +189,8 @@ def main():
             results = execute_integrated_mode(selector.config, project)
         elif mode == "redteam":
             results = execute_redteam_mode(selector.config, project)
+        elif mode == "typescript_scanner":
+            results = execute_typescript_scanner_mode(selector.config, project)
         
         # Show summary
         print("\nEXECUTION COMPLETE")
@@ -373,6 +386,74 @@ def print_results_summary(results, mode, project):
         print(f"Vulnerabilities: {assessment['vulnerabilities_found']}")
         print(f"Value: {assessment['estimated_value']}")
         print(f"Results: projetos/{project}/redteam_results_v5.json")
+    elif mode == "typescript_scanner":
+        summary = results['summary']
+        print(f"Total Findings: {summary['total_findings']}")
+        print(f"Authentication Issues: {summary['authentication_issues']}")
+        print(f"JWT Vulnerabilities: {summary['jwt_vulnerabilities']}")
+        print(f"API Security Issues: {summary['api_security_issues']}")
+        print(f"Middleware Issues: {summary['middleware_issues']}")
+        print(f"Environment Issues: {summary['environment_issues']}")
+        print(f"Vulnerable Dependencies: {summary['vulnerable_dependencies']}")
+        print(f"Results: projetos/{project}/typescript_scan_results_v5.json")
+
+def execute_typescript_scanner_mode(config, project):
+    """Execute TypeScript/Node.js Security Scanner mode"""
+    print("Executing TypeScript/Node.js Security Scanner...")
+    import json
+    from typescript_security_scanner import TypeScriptSecurityScannerAdvanced
+
+    backend_path = config.get('BACKEND_PATH', f"projetos/{project}/app/backend")
+
+    # Run scanner
+    scanner = TypeScriptSecurityScannerAdvanced(backend_path)
+    scanner.scan()
+    report = scanner.generate_report()
+
+    # Save results
+    results_file = f"projetos/{project}/typescript_scan_results_v5.json"
+    os.makedirs(f"projetos/{project}", exist_ok=True)
+
+    with open(results_file, 'w') as f:
+        json.dump(report, f, indent=2)
+
+    print(f"[+] Report saved to {results_file}")
+
+    # Generate HTML report similar to other modes
+    from report_generator import BugBountyReportGenerator
+
+    try:
+        # Convert findings to a format compatible with report generator
+        vulnerabilities = []
+        for category, findings in report['findings'].items():
+            for finding in findings:
+                vulnerabilities.append({
+                    'type': finding.get('type', 'Security Issue'),
+                    'severity': finding.get('severity', 'MEDIUM'),
+                    'file': finding.get('file', 'Unknown'),
+                    'line': finding.get('line', 0),
+                    'description': f"{finding.get('pattern', '')} - {category}"
+                })
+
+        # Generate HTML report
+        html_report = BugBountyReportGenerator(
+            target=backend_path,
+            findings=vulnerabilities
+        )
+        html_file = f"projetos/{project}/typescript_security_report.html"
+        html_report.generate_html_report(html_file)
+        print(f"[+] HTML Report: {html_file}")
+    except:
+        print("[-] Could not generate HTML report (report_generator not available)")
+
+    results = {
+        'mode': 'typescript_scanner',
+        'project': project,
+        'summary': report['summary'],
+        'findings': report['findings']
+    }
+
+    return results
 
 if __name__ == "__main__":
     main()
