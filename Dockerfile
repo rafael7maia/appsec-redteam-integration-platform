@@ -246,22 +246,28 @@ RUN git clone https://github.com/swisskyrepo/PayloadsAllTheThings.git /opt/wordl
 # HEXSTRIKE AI FRAMEWORK INTEGRATION
 # ============================================================================
 
-# Copy HexStrike framework files
-COPY hexstrike-original/hexstrike_server.py /app/
-COPY hexstrike-original/hexstrike_mcp.py /app/
-COPY hexstrike-original/requirements.txt /app/hexstrike_requirements.txt
+# Copy HexStrike framework files from hexstrike-ai directory
+COPY hexstrike-ai/hexstrike_server.py /app/
+COPY hexstrike-ai/hexstrike_mcp.py /app/
+COPY hexstrike-ai/requirements.txt /app/hexstrike_requirements.txt
 
-# Copy our enhanced files
-COPY simple_mcp.py /app/
-COPY security_bridge.py /app/
-COPY appsec_bridge.py /app/
-COPY generate_html_report.py /app/
+# Copy application bridge files
+COPY hexstrike_lib.py /app/
+COPY hexstrike_scanner.py /app/
+COPY quick_start.py /app/
+COPY config_loader.py /app/
+COPY appsec_scanner.py /app/
+COPY core_scanner.py /app/
+COPY typescript_security_scanner.py /app/
+COPY report_generator.py /app/
 
 # Install Python requirements
 RUN pip3 install --no-cache-dir -r /app/hexstrike_requirements.txt
 RUN pip3 install --no-cache-dir \
     flask psutil aiohttp \
-    mitmproxy selenium beautifulsoup4
+    mitmproxy selenium beautifulsoup4 \
+    requests bcrypt jsonwebtoken \
+    pydantic python-dotenv
 
 # ============================================================================
 # CONFIGURATION AND SETUP
