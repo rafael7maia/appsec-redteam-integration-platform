@@ -118,11 +118,28 @@ class HexStrikeScanner:
             return False
 
         try:
-            # Start Docker container
-            subprocess.run([
-                "docker-compose", "-f", "docker-compose.hexstrike.yml",
-                "up", "-d"
-            ], cwd=str(Path(__file__).parent), check=True)
+            # Use PowerShell script on Windows, direct docker-compose on Unix
+            if platform.system() == "Windows":
+                # Check if start_hexstrike.ps1 exists
+                start_script = Path(__file__).parent / "start_hexstrike.ps1"
+                if start_script.exists():
+                    print(f"[*] Using PowerShell script for Docker startup...")
+                    subprocess.run([
+                        "powershell", "-ExecutionPolicy", "Bypass",
+                        "-File", str(start_script)
+                    ], cwd=str(Path(__file__).parent), check=True)
+                else:
+                    # Fallback to direct docker-compose
+                    subprocess.run([
+                        "docker-compose", "-f", "docker-compose.hexstrike.yml",
+                        "up", "-d"
+                    ], cwd=str(Path(__file__).parent), check=True)
+            else:
+                # Linux/macOS: direct docker-compose
+                subprocess.run([
+                    "docker-compose", "-f", "docker-compose.hexstrike.yml",
+                    "up", "-d"
+                ], cwd=str(Path(__file__).parent), check=True)
 
             # Wait for server to be healthy
             return self._wait_for_server(max_retries=60, delay=2)
@@ -199,10 +216,27 @@ class HexStrikeScanner:
 
         try:
             if self.use_docker:
-                subprocess.run([
-                    "docker-compose", "-f", "docker-compose.hexstrike.yml",
-                    "down"
-                ], cwd=str(Path(__file__).parent), check=False)
+                # Use PowerShell script on Windows, direct docker-compose on Unix
+                if platform.system() == "Windows":
+                    stop_script = Path(__file__).parent / "stop_hexstrike.ps1"
+                    if stop_script.exists():
+                        print(f"[*] Using PowerShell script for Docker shutdown...")
+                        subprocess.run([
+                            "powershell", "-ExecutionPolicy", "Bypass",
+                            "-File", str(stop_script)
+                        ], cwd=str(Path(__file__).parent), check=False)
+                    else:
+                        # Fallback to direct docker-compose
+                        subprocess.run([
+                            "docker-compose", "-f", "docker-compose.hexstrike.yml",
+                            "down"
+                        ], cwd=str(Path(__file__).parent), check=False)
+                else:
+                    # Linux/macOS: direct docker-compose
+                    subprocess.run([
+                        "docker-compose", "-f", "docker-compose.hexstrike.yml",
+                        "down"
+                    ], cwd=str(Path(__file__).parent), check=False)
             else:
                 if self.server_process:
                     self.server_process.terminate()

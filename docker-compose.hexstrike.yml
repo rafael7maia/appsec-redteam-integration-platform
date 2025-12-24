@@ -1,0 +1,79 @@
+version: '3.8'
+
+services:
+  hexstrike-mcp:
+    build:
+      context: .
+      dockerfile: Dockerfile
+      args:
+        - HEXSTRIKE_VERSION=6.0
+        - PYTHON_VERSION=3.11
+    container_name: hexstrike-ai-mcp
+    image: appsec-redteam/hexstrike-ai:v6.0
+
+    ports:
+      - "8888:8888"  # HexStrike MCP Server (Primary API)
+      - "8889:8889"  # Alternative HTTP Server (Backup)
+
+    volumes:
+      - hexstrike-results:/app/results
+      - ./projetos:/app/projetos:rw
+      - ./cicd/results:/app/cicd-results:rw
+      - hexstrike-cache:/root/.cache
+
+    environment:
+      - HEXSTRIKE_PORT=8888
+      - HEXSTRIKE_VERSION=6.0
+      - PYTHONUNBUFFERED=1
+      - LOG_LEVEL=INFO
+      - FLASK_ENV=production
+      - TZ=UTC
+
+    networks:
+      - appsec-network
+
+    restart: unless-stopped
+
+    healthcheck:
+      test: ["CMD", "curl", "-f", "http://localhost:8888/health"]
+      interval: 30s
+      timeout: 10s
+      retries: 5
+      start_period: 120s
+
+    deploy:
+      resources:
+        limits:
+          memory: 4G
+          cpus: '2.0'
+        reservations:
+          memory: 2G
+          cpus: '1.0'
+
+    stdin_open: true
+    tty: true
+
+    logging:
+      driver: "json-file"
+      options:
+        max-size: "100m"
+        max-file: "10"
+
+networks:
+  appsec-network:
+    driver: bridge
+    name: appsec-network
+    ipam:
+      config:
+        - subnet: 172.20.0.0/16
+
+volumes:
+  hexstrike-results:
+    driver: local
+    driver_opts:
+      type: none
+      o: bind
+      device: ./results/hexstrike
+
+  hexstrike-cache:
+    driver: local
