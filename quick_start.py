@@ -488,120 +488,110 @@ def execute_typescript_scanner_mode(config, project):
     return results
 
 def execute_hexstrike_mode(config, project):
-    """Execute HexStrike AI Full Platform mode"""
-    print("Executing HexStrike AI Full Platform...")
+    """Execute HexStrike AI Full Platform mode (Phase 2: Scanner Wrapper)"""
+    print("\n" + "="*70)
+    print("HexStrike AI Full Platform - Mode 5 Execution")
+    print("="*70)
+
     import json
-    from hexstrike_lib import (
-        visual_engine, decision_engine, vulnerability_correlator,
-        telemetry_collector
-    )
+    import time
+    from hexstrike_scanner import HexStrikeScanner
+    from hexstrike_lib import visual_engine
 
     target_domain = config.get('TARGET_DOMAIN', '')
     attack_vectors_str = config.get('ATTACK_VECTORS', 'reconnaissance,vulnerability_scanning')
     attack_vectors = [v.strip() for v in attack_vectors_str.split(',')]
+    authorization = config.get('AUTHORIZATION', 'educational_lab')
+    use_docker = False  # Default to local server for Phase 2
 
     print(visual_engine.create_banner())
 
-    # Phase 1: Target Analysis
-    print(visual_engine.format_section_header("Phase 1: Target Analysis"))
-    profile = decision_engine.analyze_target(target_domain)
-    print(f"Target Type: {profile.target_type.value}")
-    print(f"Attack Surface Score: {profile.attack_surface_score:.1f}/10.0")
-    print(f"Risk Level: {profile.risk_level.upper()}")
-    print(f"Confidence: {profile.confidence_score*100:.1f}%")
+    print(visual_engine.format_section_header("Initializing HexStrike Scanner"))
+    print(f"Target: {target_domain}")
+    print(f"Attack Vectors: {', '.join(attack_vectors)}")
+    print(f"Authorization: {authorization}")
+    print(f"Mode: {'Docker Container' if use_docker else 'Local Server'}")
 
-    # Phase 2: Tool Selection
-    print(visual_engine.format_section_header("Phase 2: Intelligent Tool Selection"))
-    tools = dict(decision_engine.select_tools_for_target(profile))
-    print(f"Recommended Tools ({len(tools)}):")
-    for tool, effectiveness in list(tools.items())[:10]:
-        print(f"  - {tool}: {effectiveness*100:.0f}% effectiveness")
+    try:
+        # Initialize scanner
+        scanner = HexStrikeScanner(
+            target_domain=target_domain,
+            attack_vectors=attack_vectors,
+            authorization=authorization,
+            use_docker=use_docker
+        )
 
-    # Phase 3: Simulated Execution
-    print(visual_engine.format_section_header("Phase 3: Security Assessment Execution"))
-    findings = []
+        # Execute full scan (starts server, runs scan, stops server, generates report)
+        print(visual_engine.format_section_header("Starting Scan Execution"))
+        start_time = time.time()
 
-    # Simulate reconnaissance findings
-    if 'reconnaissance' in attack_vectors:
-        print("Executing reconnaissance phase...")
-        findings.append({
-            "type": "Domain Information",
-            "severity": "INFO",
-            "description": f"Target domain: {target_domain}",
-            "target": target_domain
-        })
+        full_report = scanner.execute_full_scan()
 
-    # Simulate vulnerability scanning
-    if 'vulnerability_scanning' in attack_vectors:
-        print("Executing vulnerability scanning phase...")
-        findings.append({
-            "type": "Potential Vulnerability",
-            "severity": "MEDIUM",
-            "description": "Analyze target for common web vulnerabilities",
-            "target": target_domain
-        })
+        execution_time = time.time() - start_time
 
-    # Simulate exploitation phase
-    if 'exploitation' in attack_vectors:
-        print("Executing exploitation phase...")
-        findings.append({
-            "type": "Exploitation Vector",
-            "severity": "HIGH",
-            "description": "Potential exploitation paths identified",
-            "target": target_domain
-        })
+        # Check if scan was successful
+        if not full_report.get('success', False):
+            print(f"\n[ERROR] Scan failed: {full_report.get('error', 'Unknown error')}")
+            print(f"Full report: {json.dumps(full_report, indent=2)}")
+            return {
+                'success': False,
+                'error': full_report.get('error', 'HexStrike scan failed'),
+                'mode': 'hexstrike'
+            }
 
-    # Phase 4: Correlation & Analysis
-    print(visual_engine.format_section_header("Phase 4: Vulnerability Correlation & Analysis"))
-    correlated = vulnerability_correlator.correlate_findings({'hexstrike': {'findings': findings}})
-    print(f"Total Findings: {correlated['total_findings']}")
-    print(f"Critical: {correlated['by_severity']['critical']}")
-    print(f"High: {correlated['by_severity']['high']}")
-    print(f"Medium: {correlated['by_severity']['medium']}")
-    print(f"Low: {correlated['by_severity']['low']}")
+        print(visual_engine.format_section_header("Scan Completed Successfully"))
 
-    # Phase 5: Metrics
-    print(visual_engine.format_section_header("Phase 5: Execution Metrics"))
-    telemetry_collector.record_execution(True, 15.0)  # Simulate 15 second execution
-    metrics = telemetry_collector.get_stats()
-    print(f"Commands Executed: {metrics['commands_executed']}")
-    print(f"Success Rate: {metrics['success_rate']}")
-    print(f"Average Time: {metrics['average_execution_time']}")
+        # Extract report data
+        report = full_report.get('report', {})
+        scan_info = report.get('scan_info', {})
+        summary = report.get('summary', {})
+        findings = report.get('findings', [])
 
-    # Save results
-    results = {
-        'mode': 'hexstrike',
-        'project': project,
-        'target_domain': target_domain,
-        'attack_vectors': attack_vectors,
-        'target_profile': {
-            'target_type': profile.target_type.value,
-            'risk_level': profile.risk_level,
-            'attack_surface_score': profile.attack_surface_score,
-            'confidence_score': profile.confidence_score
-        },
-        'findings': correlated['deduplicated'],
-        'summary': {
-            'total_findings': correlated['total_findings'],
-            'critical': correlated['by_severity']['critical'],
-            'high': correlated['by_severity']['high'],
-            'medium': correlated['by_severity']['medium'],
-            'low': correlated['by_severity']['low']
-        },
-        'metrics': metrics,
-        'status': 'HexStrike AI assessment complete'
-    }
+        # Display summary
+        print(f"Total Findings: {summary.get('total_findings', 0)}")
+        print(f"  - Critical: {summary.get('critical', 0)}")
+        print(f"  - High: {summary.get('high', 0)}")
+        print(f"  - Medium: {summary.get('medium', 0)}")
+        print(f"  - Low: {summary.get('low', 0)}")
+        print(f"Execution Time: {execution_time:.2f} seconds")
 
-    # Save to file
-    results_file = f"projetos/{project}/hexstrike_results_v5.json"
-    os.makedirs(f"projetos/{project}", exist_ok=True)
+        # Prepare results
+        results = {
+            'success': True,
+            'mode': 'hexstrike',
+            'project': project,
+            'target_domain': target_domain,
+            'attack_vectors': attack_vectors,
+            'authorization': authorization,
+            'scan_info': scan_info,
+            'summary': summary,
+            'findings': findings,
+            'execution_time': execution_time,
+            'report': report
+        }
 
-    with open(results_file, 'w') as f:
-        json.dump(results, f, indent=2)
+        # Save to file
+        results_file = f"projetos/{project}/hexstrike_results_v5.json"
+        os.makedirs(f"projetos/{project}", exist_ok=True)
 
-    print(f"\n[+] Results saved to {results_file}")
+        with open(results_file, 'w') as f:
+            json.dump(results, f, indent=2)
 
-    return results
+        print(visual_engine.format_section_header("Results Saved"))
+        print(f"Results file: {results_file}")
+        print(f"Findings count: {len(findings)}")
+
+        return results
+
+    except Exception as e:
+        print(f"\n[ERROR] Exception during HexStrike execution: {str(e)}")
+        import traceback
+        traceback.print_exc()
+        return {
+            'success': False,
+            'error': str(e),
+            'mode': 'hexstrike'
+        }
 
 if __name__ == "__main__":
     main()
