@@ -23,6 +23,12 @@ config.env
 cicd/results/
 *.log
 
+# HexStrike
+hexstrike-ai/hexstrike_env/
+hexstrike-ai/*.log
+hexstrike_results_*.json
+results/hexstrike/
+
 # Python cache
 __pycache__/
 *.pyc
@@ -31,6 +37,7 @@ __pycache__/
 # IDE files
 .vscode/
 .idea/
+.claude/
 
 # OS files
 .DS_Store
