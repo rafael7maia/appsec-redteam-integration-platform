@@ -11,9 +11,13 @@ from pathlib import Path
 class ConfigLoader:
     """Handles configuration loading and validation for all modes"""
 
-    VALID_MODES = ["appsec", "appsec_redteam", "redteam", "typescript_scanner"]
+    VALID_MODES = ["appsec", "appsec_redteam", "redteam", "typescript_scanner", "hexstrike"]
     VALID_PROFILES = ["entertainment", "e-commerce", "financial", "healthcare", "government"]
     VALID_AUTH = ["code_audit", "penetration_test", "bug_bounty_program", "own_system", "educational_lab"]
+    VALID_ATTACK_VECTORS = [
+        "reconnaissance", "vulnerability_scanning", "exploitation",
+        "web_application", "network", "api_security", "cloud"
+    ]
 
     REQUIRED_FIELDS = ["OPERATION_MODE", "PROJECT_NAME", "AUTHORIZATION"]
 
@@ -21,7 +25,8 @@ class ConfigLoader:
         "appsec": [],
         "appsec_redteam": ["TARGET_DOMAIN", "TARGET_PROFILE"],
         "redteam": ["TARGET_DOMAIN", "TARGET_PROFILE"],
-        "typescript_scanner": ["BACKEND_PATH"]
+        "typescript_scanner": ["BACKEND_PATH"],
+        "hexstrike": ["TARGET_DOMAIN", "ATTACK_VECTORS"]
     }
 
     def __init__(self, config_path="config.env"):
@@ -69,6 +74,14 @@ class ConfigLoader:
             profile = self.config['TARGET_PROFILE']
             if profile not in self.VALID_PROFILES:
                 raise ValueError(f"Invalid TARGET_PROFILE: {profile}. Valid: {self.VALID_PROFILES}")
+
+        # Validate ATTACK_VECTORS if present
+        if 'ATTACK_VECTORS' in self.config:
+            vectors_str = self.config['ATTACK_VECTORS']
+            vectors = [v.strip() for v in vectors_str.split(',')]
+            for vector in vectors:
+                if vector not in self.VALID_ATTACK_VECTORS:
+                    raise ValueError(f"Invalid ATTACK_VECTOR: {vector}. Valid: {self.VALID_ATTACK_VECTORS}")
 
         return True
 
