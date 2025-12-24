@@ -6,23 +6,8 @@ One-command execution with mode selection and validation
 
 import os
 import sys
-from mode_selector_simple import ModeSelector
+from config_loader import ConfigLoader
 from core_scanner import CoreScanner
-
-def load_config():
-    """Load configuration from config.env file"""
-    config = {}
-    
-    if os.path.exists('config.env'):
-        with open('config.env', 'r') as f:
-            for line in f:
-                if '=' in line and not line.startswith('#'):
-                    key, value = line.strip().split('=', 1)
-                    config[key] = value
-    
-    return config
-
-# Configuration validation is now handled by ModeSelector class
 
 def interactive_setup():
     """Interactive setup for operation mode and configuration"""
@@ -173,24 +158,28 @@ def main():
             config = None
     
     try:
-        # Validate mode and configuration
-        selector = ModeSelector()
-        selector.load_config()
-        mode, project = selector.validate_mode()
-        
+        # Load and validate configuration
+        loader = ConfigLoader()
+        loader.load()
+        loader.validate()
+
+        mode = loader.get_mode()
+        project = loader.get_project()
+        config = loader.config
+
         print("\n" + "=" * 70)
         print("STARTING EXECUTION")
         print("=" * 70)
-        
+
         # Execute based on mode
         if mode == "appsec":
-            results = execute_appsec_mode(selector.config, project)
+            results = execute_appsec_mode(config, project)
         elif mode == "appsec_redteam":
-            results = execute_integrated_mode(selector.config, project)
+            results = execute_integrated_mode(config, project)
         elif mode == "redteam":
-            results = execute_redteam_mode(selector.config, project)
+            results = execute_redteam_mode(config, project)
         elif mode == "typescript_scanner":
-            results = execute_typescript_scanner_mode(selector.config, project)
+            results = execute_typescript_scanner_mode(config, project)
         
         # Show summary
         print("\nEXECUTION COMPLETE")
