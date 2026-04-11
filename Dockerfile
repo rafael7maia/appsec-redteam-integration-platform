@@ -188,8 +188,7 @@ RUN wget -O /opt/tools/bin/stegsolve.jar http://www.caesum.com/handbook/Stegsolv
 # Install OSINT tools
 RUN pip3 install --no-cache-dir --break-system-packages \
     sherlock-project social-analyzer \
-    theHarvester recon-ng \
-    spiderfoot shodan censys-python
+    spiderfoot shodan censys-python || true
 
 # Install additional recon tools
 RUN go install github.com/tomnomnom/httprobe@latest || true
