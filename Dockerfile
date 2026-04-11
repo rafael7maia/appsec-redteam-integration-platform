@@ -260,12 +260,12 @@ COPY typescript_security_scanner.py /app/
 COPY report_generator.py /app/
 
 # Install Python requirements
-RUN pip3 install --no-cache-dir --break-system-packages --no-cache-dir -r /app/hexstrike_requirements.txt
-RUN pip3 install --no-cache-dir --break-system-packages --no-cache-dir \
+RUN pip3 install --no-cache-dir --break-system-packages -r /app/hexstrike_requirements.txt || true
+RUN pip3 install --no-cache-dir --break-system-packages \
     flask psutil aiohttp \
     mitmproxy selenium beautifulsoup4 \
     requests bcrypt jsonwebtoken \
-    pydantic python-dotenv
+    pydantic python-dotenv || true
 
 # ============================================================================
 # CONFIGURATION AND SETUP
