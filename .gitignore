@@ -29,10 +29,12 @@ hexstrike-ai/*.log
 hexstrike_results_*.json
 results/hexstrike/
 
-# Python cache
+# Python cache and virtual environments
 __pycache__/
 *.pyc
 *.pyo
+venv/
+env/
 
 # IDE files
 .vscode/

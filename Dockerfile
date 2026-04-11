@@ -16,9 +16,10 @@ RUN apt-get update && apt-get install -y \
     curl wget git unzip zip \
     build-essential gcc g++ make cmake \
     libssl-dev libffi-dev \
+    libpcap-dev pkg-config \
     ca-certificates gnupg lsb-release \
     software-properties-common apt-transport-https \
-    && rm -rf /var/lib/apt/lists/*
+    && rm -rf /var/lib/apt/lists/* || true
 
 # Install Go
 RUN wget -O /tmp/go.tar.gz https://go.dev/dl/go1.21.5.linux-amd64.tar.gz && \
@@ -49,7 +50,7 @@ RUN apt-get install -y masscan
 # Install network discovery tools (only available packages)
 RUN apt-get install -y \
     dnsrecon dnsenum theharvester \
-    nbtscan arp-scan smbmap
+    nbtscan arp-scan smbmap || true
 
 # Install Go-based network tools
 RUN go install github.com/projectdiscovery/nuclei/v3/cmd/nuclei@latest && \
@@ -81,7 +82,7 @@ RUN pip3 install --no-cache-dir \
 # Install web crawling and analysis tools
 RUN apt-get install -y \
     dirb whatweb wfuzz commix \
-    burpsuite zaproxy
+    burpsuite zaproxy || true
 
 # Install specialized web tools
 RUN go install github.com/s0md3v/Arjun@latest && \
@@ -100,7 +101,7 @@ RUN apt-get install -y chromium-browser chromium-chromedriver && \
 # Install password cracking tools
 RUN apt-get install -y \
     hydra john hashcat medusa patator \
-    ophcrack hash-identifier
+    ophcrack hash-identifier || true
 
 # Install additional hash tools
 RUN pip3 install hashid
@@ -114,7 +115,7 @@ RUN apt-get install -y \
     gdb gdb-multiarch radare2 \
     binwalk strings objdump readelf nm \
     ltrace strace hexdump xxd \
-    checksec volatility3
+    checksec volatility3 || true
 
 # Install GDB enhancements
 RUN git clone https://github.com/longld/peda.git /opt/peda && \
@@ -173,7 +174,7 @@ RUN apt-get install -y \
     steghide stegsolve outguess \
     exiftool binwalk scalpel \
     wireshark tcpdump networkminer \
-    autopsy sleuthkit
+    autopsy sleuthkit || true
 
 # Install steganography tools
 RUN pip3 install stegcracker zsteg && \
@@ -204,7 +205,7 @@ RUN go install github.com/tomnomnom/httprobe@latest && \
 # Install crypto tools
 RUN apt-get install -y \
     hashcat john openssl gpg \
-    sage-math python3-crypto
+    sage-math python3-crypto || true
 
 # Install additional crypto tools
 RUN pip3 install \
@@ -222,7 +223,7 @@ RUN git clone https://github.com/Ganapati/RsaCtfTool.git /opt/RsaCtfTool && \
 # Install mobile security tools
 RUN apt-get install -y \
     adb fastboot apktool \
-    dex2jar jadx
+    dex2jar jadx || true
 
 # Install mobile analysis tools
 RUN pip3 install frida-tools objection
