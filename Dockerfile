@@ -68,9 +68,9 @@ RUN go install github.com/owasp-amass/amass/v3/...@latest || true
 # ============================================================================
 
 # Install directory/file discovery tools
-RUN go install github.com/OJ/gobuster/v3@latest && \
-    go install github.com/epi052/feroxbuster@latest && \
-    go install github.com/ffuf/ffuf@latest
+RUN go install github.com/OJ/gobuster/v3@latest || true
+RUN go install github.com/ffuf/ffuf@latest || true
+RUN cargo install feroxbuster --locked || true
 
 # Install Python-based web tools
 RUN pip3 install --no-cache-dir \
