@@ -103,7 +103,7 @@ RUN apt-get install -y \
     ophcrack hash-identifier || true
 
 # Install additional hash tools
-RUN pip3 install hashid
+RUN pip3 install --no-cache-dir --break-system-packages hashid || true
 
 # ============================================================================
 # BINARY ANALYSIS & REVERSE ENGINEERING (25+ Tools)
@@ -133,14 +133,14 @@ RUN wget -O /tmp/binaryninja.zip https://cdn.binary.ninja/installers/BinaryNinja
     rm /tmp/binaryninja.zip || true
 
 # Install additional binary tools
-RUN pip3 install angr pwntools ropper one-gadget-finder
+RUN pip3 install --no-cache-dir --break-system-packages angr pwntools ropper one-gadget-finder || true
 
 # ============================================================================
 # CLOUD & CONTAINER SECURITY (20+ Tools)
 # ============================================================================
 
 # Install cloud security tools
-RUN pip3 install \
+RUN pip3 install --no-cache-dir --break-system-packages \
     prowler scout-suite \
     checkov terrascan \
     trivy-python
@@ -158,7 +158,7 @@ RUN curl -LO "https://dl.k8s.io/release/$(curl -L -s https://dl.k8s.io/release/s
     install -o root -g root -m 0755 kubectl /usr/local/bin/kubectl
 
 # Install kube-hunter and kube-bench
-RUN pip3 install --break-system-packages kube-hunter || true
+RUN pip3 install --no-cache-dir --break-system-packages kube-hunter || true
 RUN wget -O /tmp/kube-bench.tar.gz https://github.com/aquasecurity/kube-bench/releases/download/v0.6.15/kube-bench_0.6.15_linux_amd64.tar.gz && \
     tar -xzf /tmp/kube-bench.tar.gz -C /opt/tools/bin && \
     rm /tmp/kube-bench.tar.gz || true
@@ -176,7 +176,7 @@ RUN apt-get install -y \
     autopsy sleuthkit || true
 
 # Install steganography tools
-RUN pip3 install --break-system-packages stegcracker zsteg || true
+RUN pip3 install --no-cache-dir --break-system-packages stegcracker zsteg || true
 RUN gem install zsteg || true
 
 # Install additional forensics tools
@@ -187,7 +187,7 @@ RUN wget -O /opt/tools/bin/stegsolve.jar http://www.caesum.com/handbook/Stegsolv
 # ============================================================================
 
 # Install OSINT tools
-RUN pip3 install \
+RUN pip3 install --no-cache-dir --break-system-packages \
     sherlock-project social-analyzer \
     theHarvester recon-ng \
     spiderfoot shodan censys-python
@@ -207,13 +207,13 @@ RUN apt-get install -y \
     sage-math python3-crypto || true
 
 # Install additional crypto tools
-RUN pip3 install \
+RUN pip3 install --no-cache-dir --break-system-packages \
     pycryptodome cryptography \
     gmpy2 sympy
 
 # Install factorization tools
 RUN git clone https://github.com/Ganapati/RsaCtfTool.git /opt/RsaCtfTool || true
-RUN pip3 install --break-system-packages -r /opt/RsaCtfTool/requirements.txt || true
+RUN pip3 install --no-cache-dir --break-system-packages -r /opt/RsaCtfTool/requirements.txt || true
 
 # ============================================================================
 # MOBILE APPLICATION SECURITY
@@ -225,7 +225,7 @@ RUN apt-get install -y \
     dex2jar jadx || true
 
 # Install mobile analysis tools
-RUN pip3 install frida-tools objection
+RUN pip3 install --no-cache-dir --break-system-packages frida-tools objection || true
 
 # ============================================================================
 # WORDLISTS AND PAYLOADS
@@ -262,8 +262,8 @@ COPY typescript_security_scanner.py /app/
 COPY report_generator.py /app/
 
 # Install Python requirements
-RUN pip3 install --no-cache-dir -r /app/hexstrike_requirements.txt
-RUN pip3 install --no-cache-dir \
+RUN pip3 install --no-cache-dir --break-system-packages --no-cache-dir -r /app/hexstrike_requirements.txt
+RUN pip3 install --no-cache-dir --break-system-packages --no-cache-dir \
     flask psutil aiohttp \
     mitmproxy selenium beautifulsoup4 \
     requests bcrypt jsonwebtoken \
