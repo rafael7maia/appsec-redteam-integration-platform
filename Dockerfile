@@ -133,7 +133,7 @@ RUN wget -O /tmp/binaryninja.zip https://cdn.binary.ninja/installers/BinaryNinja
     rm /tmp/binaryninja.zip || true
 
 # Install additional binary tools
-RUN pip3 install --no-cache-dir --break-system-packages angr pwntools ropper one-gadget-finder || true
+RUN pip3 install --no-cache-dir --break-system-packages angr pwntools ropper || true
 
 # ============================================================================
 # CLOUD & CONTAINER SECURITY (20+ Tools)
@@ -141,9 +141,8 @@ RUN pip3 install --no-cache-dir --break-system-packages angr pwntools ropper one
 
 # Install cloud security tools
 RUN pip3 install --no-cache-dir --break-system-packages \
-    prowler scout-suite \
     checkov terrascan \
-    trivy-python
+    trivy-python || true
 
 # Install Trivy
 RUN wget -O /tmp/trivy.deb https://github.com/aquasecurity/trivy/releases/download/v0.46.0/trivy_0.46.0_Linux-64bit.deb && \
