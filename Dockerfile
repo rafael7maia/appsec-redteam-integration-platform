@@ -53,15 +53,15 @@ RUN apt-get install -y \
     nbtscan arp-scan smbmap || true
 
 # Install Go-based network tools
-RUN go install github.com/projectdiscovery/nuclei/v3/cmd/nuclei@latest && \
-    go install github.com/projectdiscovery/subfinder/v2/cmd/subfinder@latest && \
-    go install github.com/projectdiscovery/httpx/cmd/httpx@latest && \
-    go install github.com/projectdiscovery/katana/cmd/katana@latest && \
-    go install github.com/projectdiscovery/naabu/v2/cmd/naabu@latest && \
-    go install github.com/lc/gau/v2/cmd/gau@latest && \
-    go install github.com/tomnomnom/waybackurls@latest && \
-    go install github.com/tomnomnom/assetfinder@latest && \
-    go install github.com/OWASP/Amass/v3/...@latest
+RUN go install github.com/projectdiscovery/nuclei/v3/cmd/nuclei@latest || true
+RUN go install github.com/projectdiscovery/subfinder/v2/cmd/subfinder@latest || true
+RUN go install github.com/projectdiscovery/httpx/cmd/httpx@latest || true
+RUN go install github.com/projectdiscovery/katana/cmd/katana@latest || true
+RUN go install github.com/projectdiscovery/naabu/v2/cmd/naabu@latest || true
+RUN go install github.com/lc/gau/v2/cmd/gau@latest || true
+RUN go install github.com/tomnomnom/waybackurls@latest || true
+RUN go install github.com/tomnomnom/assetfinder@latest || true
+RUN go install github.com/owasp-amass/amass/v3/...@latest || true
 
 # ============================================================================
 # WEB APPLICATION SECURITY TESTING (40+ Tools)
