@@ -84,10 +84,10 @@ RUN apt-get install -y \
     burpsuite zaproxy || true
 
 # Install specialized web tools
-RUN go install github.com/s0md3v/Arjun@latest && \
-    go install github.com/devanshbatham/ParamSpider@latest && \
-    go install github.com/hahwul/dalfox/v2@latest && \
-    go install github.com/jaeles-project/jaeles@latest
+RUN go install github.com/s0md3v/Arjun@latest || true
+RUN go install github.com/devanshbatham/ParamSpider@latest || true
+RUN go install github.com/hahwul/dalfox/v2@latest || true
+RUN go install github.com/jaeles-project/jaeles@latest || true
 
 # Install browser automation tools
 RUN apt-get install -y chromium-browser chromium-chromedriver && \
@@ -193,9 +193,9 @@ RUN pip3 install \
     spiderfoot shodan censys-python
 
 # Install additional recon tools
-RUN go install github.com/tomnomnom/httprobe@latest && \
-    go install github.com/hakluke/hakrawler@latest && \
-    go install github.com/projectdiscovery/chaos-client/cmd/chaos@latest
+RUN go install github.com/tomnomnom/httprobe@latest || true
+RUN go install github.com/hakluke/hakrawler@latest || true
+RUN go install github.com/projectdiscovery/chaos-client/cmd/chaos@latest || true
 
 # ============================================================================
 # CRYPTOGRAPHY & HASH ANALYSIS TOOLS
