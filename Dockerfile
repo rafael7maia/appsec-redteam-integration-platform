@@ -90,8 +90,8 @@ RUN go install github.com/hahwul/dalfox/v2@latest || true
 RUN go install github.com/jaeles-project/jaeles@latest || true
 
 # Install browser automation tools
-RUN apt-get install -y chromium-browser chromium-chromedriver && \
-    pip3 install selenium webdriver-manager
+RUN apt-get install -y chromium-browser chromium-chromedriver || true
+RUN pip3 install --no-cache-dir --break-system-packages selenium webdriver-manager || true
 
 # ============================================================================
 # AUTHENTICATION & PASSWORD SECURITY (12+ Tools)
@@ -117,20 +117,20 @@ RUN apt-get install -y \
     checksec volatility3 || true
 
 # Install GDB enhancements
-RUN git clone https://github.com/longld/peda.git /opt/peda && \
-    git clone https://github.com/hugsy/gef.git /opt/gef && \
-    git clone https://github.com/scwuaptx/Pwngdb.git /opt/Pwngdb
+RUN git clone https://github.com/longld/peda.git /opt/peda || true
+RUN git clone https://github.com/hugsy/gef.git /opt/gef || true
+RUN git clone https://github.com/scwuaptx/Pwngdb.git /opt/Pwngdb || true
 
 # Install Ghidra
 RUN wget -O /tmp/ghidra.zip https://github.com/NationalSecurityAgency/ghidra/releases/download/Ghidra_10.4_build/ghidra_10.4_20230928_PUBLIC.zip && \
     unzip /tmp/ghidra.zip -d /opt/ && \
     mv /opt/ghidra_* /opt/ghidra && \
-    rm /tmp/ghidra.zip
+    rm /tmp/ghidra.zip || true
 
 # Install Binary Ninja (Community Edition)
 RUN wget -O /tmp/binaryninja.zip https://cdn.binary.ninja/installers/BinaryNinja-personal.zip && \
     unzip /tmp/binaryninja.zip -d /opt/ && \
-    rm /tmp/binaryninja.zip
+    rm /tmp/binaryninja.zip || true
 
 # Install additional binary tools
 RUN pip3 install angr pwntools ropper one-gadget-finder
@@ -148,7 +148,7 @@ RUN pip3 install \
 # Install Trivy
 RUN wget -O /tmp/trivy.deb https://github.com/aquasecurity/trivy/releases/download/v0.46.0/trivy_0.46.0_Linux-64bit.deb && \
     dpkg -i /tmp/trivy.deb && \
-    rm /tmp/trivy.deb
+    rm /tmp/trivy.deb || true
 
 # Install Docker tools
 RUN apt-get install -y docker.io docker-compose
@@ -158,10 +158,10 @@ RUN curl -LO "https://dl.k8s.io/release/$(curl -L -s https://dl.k8s.io/release/s
     install -o root -g root -m 0755 kubectl /usr/local/bin/kubectl
 
 # Install kube-hunter and kube-bench
-RUN pip3 install kube-hunter && \
-    wget -O /tmp/kube-bench.tar.gz https://github.com/aquasecurity/kube-bench/releases/download/v0.6.15/kube-bench_0.6.15_linux_amd64.tar.gz && \
+RUN pip3 install --break-system-packages kube-hunter || true
+RUN wget -O /tmp/kube-bench.tar.gz https://github.com/aquasecurity/kube-bench/releases/download/v0.6.15/kube-bench_0.6.15_linux_amd64.tar.gz && \
     tar -xzf /tmp/kube-bench.tar.gz -C /opt/tools/bin && \
-    rm /tmp/kube-bench.tar.gz
+    rm /tmp/kube-bench.tar.gz || true
 
 # ============================================================================
 # CTF & FORENSICS TOOLS (20+ Tools)
@@ -176,8 +176,8 @@ RUN apt-get install -y \
     autopsy sleuthkit || true
 
 # Install steganography tools
-RUN pip3 install stegcracker zsteg && \
-    gem install zsteg
+RUN pip3 install --break-system-packages stegcracker zsteg || true
+RUN gem install zsteg || true
 
 # Install additional forensics tools
 RUN wget -O /opt/tools/bin/stegsolve.jar http://www.caesum.com/handbook/Stegsolve.jar
@@ -212,8 +212,8 @@ RUN pip3 install \
     gmpy2 sympy
 
 # Install factorization tools
-RUN git clone https://github.com/Ganapati/RsaCtfTool.git /opt/RsaCtfTool && \
-    pip3 install -r /opt/RsaCtfTool/requirements.txt
+RUN git clone https://github.com/Ganapati/RsaCtfTool.git /opt/RsaCtfTool || true
+RUN pip3 install --break-system-packages -r /opt/RsaCtfTool/requirements.txt || true
 
 # ============================================================================
 # MOBILE APPLICATION SECURITY
