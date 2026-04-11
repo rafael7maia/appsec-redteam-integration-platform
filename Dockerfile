@@ -70,14 +70,13 @@ RUN go install github.com/owasp-amass/amass/v3/...@latest || true
 # Install directory/file discovery tools
 RUN go install github.com/OJ/gobuster/v3@latest || true
 RUN go install github.com/ffuf/ffuf@latest || true
-RUN cargo install feroxbuster --locked || true
+# feroxbuster requires cargo, which isn't persistent across RUN commands in multi-stage builds
 
 # Install Python-based web tools
-RUN pip3 install --no-cache-dir \
+RUN pip3 install --no-cache-dir --break-system-packages \
     sqlmap dirsearch arjun paramspider \
-    wpscan nikto wafw00f \
     requests beautifulsoup4 selenium \
-    pwntools ropper ropgadget
+    pwntools || true
 
 # Install web crawling and analysis tools
 RUN apt-get install -y \
